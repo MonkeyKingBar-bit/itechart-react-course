@@ -1,1 +1,11 @@
-
+header {
+   background-color: black !important;
+}
+.header__title {
+   display: flex;
+   align-items: center;
+}
+.header__title p {
+   color: #fff;
+   padding-left: 26px;
+}

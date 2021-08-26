@@ -1,1 +1,9 @@
+.app-content {
+   height: 100%;
+   display: flex;
+   flex-direction: row;
+}
 
+@media screen and (max-width: 600px) {
+   .app-content { display: block }
+}

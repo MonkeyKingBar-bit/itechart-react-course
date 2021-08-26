@@ -1,19 +1,21 @@
-import React from "react";
-import AppBar from "@material-ui/core/AppBar";
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable no-use-before-define */
+import React from 'react';
+import AppBar from '@material-ui/core/AppBar';
 // import Button from "@material-ui/core/Button";
-import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
-import Card from "@material-ui/core/Card";
+import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
+import Card from '@material-ui/core/Card';
 // import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Grid from "@material-ui/core/Grid";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 // import Link from "@material-ui/core/Link";
-import "./App.css";
+import './App.css';
 
 // function Copyright() {
 //   return (
@@ -29,20 +31,32 @@ import "./App.css";
 // }
 
 const useStyles = makeStyles((theme) => ({
+  headerColor: {
+    backgroundColor: '#000',
+    color: '#fff',
+  },
   icon: {
-    color: "#f50057",
+    color: '#f50057',
+  },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    columnGap: '26px',
+  },
+  headerTitle: {
+    color: '#f50057',
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
   },
   card: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
   },
   cardMedia: {
-    paddingTop: "56.25%", // 16:9
+    paddingTop: '56.25%', // 16:9
   },
   cardContent: {
     flexGrow: 1,
@@ -56,14 +70,14 @@ const cards = [1, 2, 3];
 const App = () => {
   const classes = useStyles();
   return (
-    <React.Fragment>
+    <>
       <CssBaseline />
-      <AppBar position="relative" color="default">
+      <AppBar position="relative" className={classes.headerColor}>
         <Toolbar>
           <DragIndicatorIcon className={classes.icon} />
-          <Typography variant="h6" color="secondary" noWrap>
-            <div className="header__title">
-              <strong>iTechArt</strong>
+          <Typography variant="h6" color="initial" noWrap>
+            <div className={classes.header}>
+              <strong className={classes.headerTitle}>iTechArt</strong>
               <p>React Course</p>
             </div>
           </Typography>
@@ -121,7 +135,7 @@ const App = () => {
         <Copyright />
       </footer> */}
       {/* End footer */}
-    </React.Fragment>
+    </>
   );
 };
 

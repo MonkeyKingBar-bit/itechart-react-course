@@ -32,37 +32,30 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 interface CardProps {
-  cardData: any;
+  title: string;
+  text: string;
 }
-const cards = [1, 2, 3];
-
 const Cards: React.FC<CardProps> = (props: CardProps) => {
   const classes = useStyles();
-  const { cardData } = props;
+  const { title, text } = props;
   return (
     <main>
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid container spacing={4}>
-          {cards.map((card) => (
-            <Grid item key={card} xs={12} sm={6} md={4}>
-              <Card className={classes.card}>
-                <CardMedia
-                  className={classes.cardMedia}
-                  image="https://source.unsplash.com/random"
-                  title="Image title"
-                />
-                {cardData.map((data: any) => (
-                  <CardContent key={data} className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {data.title}
-                    </Typography>
-                    <Typography>
-                      {data.text}
-                    </Typography>
-                  </CardContent>
-                ))}
-
-                {/* <CardActions>
+          <Grid item xs={12} sm={12} md={12}>
+            <Card className={classes.card}>
+              <CardMedia
+                className={classes.cardMedia}
+                image="https://source.unsplash.com/random"
+                title="Image title"
+              />
+              <CardContent className={classes.cardContent}>
+                <Typography gutterBottom variant="h5" component="h2">
+                  {title}
+                </Typography>
+                <Typography>{text}</Typography>
+              </CardContent>
+              {/* <CardActions>
                   <Button size="small" color="primary">
                     View
                   </Button>
@@ -70,9 +63,8 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                     Edit
                   </Button>
                 </CardActions> */}
-              </Card>
-            </Grid>
-          ))}
+            </Card>
+          </Grid>
         </Grid>
       </Container>
     </main>

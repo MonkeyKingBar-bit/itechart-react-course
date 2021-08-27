@@ -16,7 +16,17 @@ interface CardData {
 const cardData: Array<CardData> = [
   {
     id: 1,
-    title: 'Heading',
+    title: 'Heading1',
+    text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat, harum eligendi accusantium tempora provident iste nam eius id sit iusto accusamus cum nostrum, consequatur eaque dicta doloribus hic ex voluptate!',
+  },
+  {
+    id: 2,
+    title: 'Heading2',
+    text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat, harum eligendi accusantium tempora provident iste nam eius id sit iusto accusamus cum nostrum, consequatur eaque dicta doloribus hic ex voluptate!',
+  },
+  {
+    id: 3,
+    title: 'Heading3',
     text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat, harum eligendi accusantium tempora provident iste nam eius id sit iusto accusamus cum nostrum, consequatur eaque dicta doloribus hic ex voluptate!',
   },
 ];
@@ -25,7 +35,10 @@ const App = () => (
   <div className="app-wrapper">
     <Header />
     <div className="app-content">
-      <Cards cardData={cardData} />
+      {cardData.map((data) => (
+        <Cards title={data.title} text={data.text} />
+      ))}
+      {/* key={data} */}
     </div>
   </div>
 );

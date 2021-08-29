@@ -1,8 +1,3 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable react/jsx-filename-extension */
 // import Button from "@material-ui/core/Button";
 import React from 'react';
 import Card from '@material-ui/core/Card';

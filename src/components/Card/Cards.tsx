@@ -9,6 +9,11 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+interface CardProps {
+  title: string;
+  text: string;
+}
+
 const useStyles = makeStyles((theme: Theme) => ({
   cardGrid: {
     paddingTop: theme.spacing(8),
@@ -26,10 +31,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexGrow: 1,
   },
 }));
-interface CardProps {
-  title: string;
-  text: string;
-}
+
 const Cards: React.FC<CardProps> = (props: CardProps) => {
   const classes = useStyles();
   const { title, text } = props;

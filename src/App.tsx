@@ -5,7 +5,7 @@ import Cards from './components/Card/Cards';
 import initialData from './state/CardData';
 
 const App = () => (
-  // const [initialData, setNewData] = useState('CARD_DATA');
+  // const [initialData, setNewData] = useState('initialData');
   <div className="app-wrapper">
     <Header />
     <div className="app-content">

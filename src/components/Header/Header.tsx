@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 /* eslint-disable no-console */
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
@@ -9,14 +10,21 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import useStyles from '../../styles/styles';
+// import AddCardModal from '../Card/AddCardModal';
 // import addCardModal from '../Card/AddCardModal';
 
-const Header = () => {
+interface HeaderProps {
+  setActive: any;
+}
+
+const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
+  const { setActive } = props;
   const classes = useStyles();
-  const addNewCard = (event: any) => {
-    event.preventDefault();
-    console.log('hi');
-  };
+  // const addNewCard = (event: any) => {
+  //   event.preventDefault();
+  //   // props.onClickButtonPopup;
+  //   console.log('hi');
+  // };
   return (
     <header>
       <CssBaseline />
@@ -39,7 +47,7 @@ const Header = () => {
               color="inherit"
               aria-label="add"
               size="small"
-              onClick={addNewCard}
+              onClick={setActive}
             >
               <AddIcon />
             </Fab>
@@ -48,6 +56,7 @@ const Header = () => {
               color="inherit"
               aria-label="edit"
               size="small"
+              disabled
             >
               <EditIcon />
             </Fab>

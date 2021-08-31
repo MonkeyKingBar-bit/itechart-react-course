@@ -3,12 +3,13 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     '& > *': {
-      margin: theme.spacing(1),
+      margin: theme.spacing(1.2),
     },
   },
   headerColor: {
     backgroundColor: '#000',
     color: '#fff',
+    zIndex: 0,
   },
   headerContent: {
     display: 'flex',
@@ -48,19 +49,35 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexGrow: 1,
   },
   title: {
-    fontSize: 14,
+    background: '#f50057',
+    color: 'white',
+    padding: '1rem',
+    textAlign: 'center',
+    borderRadius: '5px',
+    marginBottom: '20px',
   },
   pos: {
     marginBottom: 12,
   },
-  backdrop: {
+  modalContent: {
     position: 'fixed',
-    top: '0',
-    left: '0',
-    width: '100%',
-    height: '100vh',
-    background: 'rgba(0, 0, 0, 0.75)',
-    zIndex: 10,
+    top: '30vh',
+    left: '10%',
+    width: '80%',
+    zIndex: 100,
+    overflow: 'hidden',
+    transform: 'scale(0)',
+  },
+  modalActive: {
+    transform: 'scale(1)',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    rowGap: '20px',
+  },
+  buttonForm: {
+    justifyContent: 'center',
   },
 }));
 

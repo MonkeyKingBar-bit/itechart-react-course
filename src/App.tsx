@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import { v4 as uuidv4 } from 'uuid';
 import Header from './components/Header/Header';
 import Cards from './components/Card/Cards';
 import initialData from './state/CardData';
@@ -11,7 +12,7 @@ const App = () => {
   const addCardHandler = (enteredTitle: any, enteredContent: any) => {
     setCardList((prevCardList) => [
       ...prevCardList,
-      { id: Math.random().toString(), title: enteredTitle, text: enteredContent },
+      { id: uuidv4(), title: enteredTitle, text: enteredContent },
     ]);
   };
   return (

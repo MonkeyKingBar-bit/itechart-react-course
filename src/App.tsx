@@ -8,6 +8,7 @@ import Modal from './components/Card/CardModal/Modal';
 
 const App = () => {
   const [modalActive, setModalActive] = useState(false);
+  // const [editCard, setEditCard] = useState(false);
   const [cardList, setCardList] = useState(initialData);
   const addCardHandler = (enteredTitle: any, enteredContent: any) => {
     setCardList((prevCardList) => [
@@ -17,13 +18,20 @@ const App = () => {
   };
   return (
     <div className="app-wrapper">
-      <Header setActive={() => setModalActive(true)} />
+      <Header
+        setActive={() => setModalActive(true)}
+        // setActiveEdit={() => setEditCard(true)}
+      />
       <div className="app-content">
         {cardList.map((data) => (
           <Cards key={data.id} title={data.title} text={data.text} />
         ))}
       </div>
-      <Modal active={modalActive} setActive={setModalActive} onAddCard={addCardHandler} />
+      <Modal
+        active={modalActive}
+        setActive={setModalActive}
+        onAddCard={addCardHandler}
+      />
     </div>
   );
 };

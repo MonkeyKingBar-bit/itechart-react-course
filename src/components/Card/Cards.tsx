@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Button from '@material-ui/core/Button';
 import React from 'react';
 import Card from '@material-ui/core/Card';
@@ -8,16 +9,17 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import useStyles from '../../styles/styles';
+import './Card.css';
 
 interface CardProps {
   title: string;
   text: string;
-  // activeEdit: boolean;
+  activeEdit: boolean;
 }
 
 const Cards: React.FC<CardProps> = (props: CardProps) => {
   const classes = useStyles();
-  const { title, text } = props;
+  const { title, text, activeEdit } = props;
   return (
     <main>
       <Container className={classes.cardGrid} maxWidth="md">
@@ -35,8 +37,8 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                 </Typography>
                 <Typography>{text}</Typography>
               </CardContent>
-              <CardActions>
-                <Button size="small" color="secondary">
+              <CardActions className={activeEdit ? 'editMode active' : 'editMode'}>
+                <Button size="medium" color="secondary">
                   Edit
                 </Button>
                 <Button size="small" color="secondary">

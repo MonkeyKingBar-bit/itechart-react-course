@@ -11,11 +11,11 @@ import useStyles from '../../styles/styles';
 
 interface HeaderProps {
   setActive: any;
-  // setActiveEdit: any;
+  setActiveEdit: any;
 }
 
 const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
-  const { setActive } = props;
+  const { setActive, setActiveEdit } = props;
   const classes = useStyles();
   return (
     <header>
@@ -48,7 +48,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
               color="inherit"
               aria-label="edit"
               size="small"
-              // onClick={setActiveEdit}
+              onClick={setActiveEdit}
             >
               <EditIcon />
             </Fab>

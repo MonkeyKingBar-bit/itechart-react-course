@@ -1,0 +1,6 @@
+.editMode {
+   visibility: hidden;
+}
+.editMode.active {
+   visibility: visible;
+}

@@ -7,16 +7,22 @@ import Modal from './components/Card/CardModal/Modal';
 
 const App = () => {
   const [modalActive, setModalActive] = useState(false);
+  const [cardList, setCardList] = useState(initialData);
+  const addCardHandler = (enteredTitle: any, enteredContent: any) => {
+    setCardList((prevCardList) => [
+      ...prevCardList,
+      { id: Math.random().toString(), title: enteredTitle, text: enteredContent },
+    ]);
+  };
   return (
     <div className="app-wrapper">
       <Header setActive={() => setModalActive(true)} />
       <div className="app-content">
-        {initialData.map((data) => (
+        {cardList.map((data) => (
           <Cards key={data.id} title={data.title} text={data.text} />
         ))}
       </div>
-      {/* <AddCardModal active={modalActive} setActive={setModalActive} /> */}
-      <Modal active={modalActive} setActive={setModalActive} />
+      <Modal active={modalActive} setActive={setModalActive} onAddCard={addCardHandler} />
     </div>
   );
 };

@@ -20,7 +20,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
   return (
     <main>
       <Container className={classes.cardGrid} maxWidth="md">
-        <Grid container spacing={4}>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={12}>
             <Card className={classes.card}>
               <CardMedia

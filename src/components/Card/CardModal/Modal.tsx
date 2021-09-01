@@ -1,6 +1,7 @@
+/* eslint-disable no-console */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React from 'react';
+import React, { useState } from 'react';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -13,11 +14,31 @@ import './Modal.css';
 interface ModalProps {
   active: any;
   setActive: any;
+  onAddCard: any;
 }
 
 const Modal = (props: ModalProps) => {
-  const { active, setActive } = props;
+  const { active, setActive, onAddCard } = props;
   const classes = useStyles();
+  const [enteredTitle, setEnteredTitle] = useState('');
+  const [enteredContent, setEnteredContent] = useState('');
+  const addCardHandler = (event: any) => {
+    event.preventDefault();
+    if (enteredTitle.trim().length === 0 || enteredContent.trim().length === 0) {
+      return;
+    }
+    setActive(false);
+    onAddCard(enteredTitle, enteredContent);
+    setEnteredTitle('');
+    setEnteredContent('');
+  };
+  const titleChangeHandler = (event: any) => {
+    setEnteredTitle(event.target.value);
+  };
+  const contentChangeHandler = (event: any) => {
+    setEnteredContent(event.target.value);
+  };
+
   return (
     <div
       className={active ? 'modal active' : 'modal'}
@@ -41,12 +62,15 @@ const Modal = (props: ModalProps) => {
               className={classes.form}
               noValidate
               autoComplete="off"
+              onSubmit={addCardHandler}
             >
               <TextField
                 id="standard-basic"
                 label="Title"
                 placeholder="write header"
                 color="secondary"
+                value={enteredTitle}
+                onChange={titleChangeHandler}
               />
               <TextField
                 id="standard-multiline-static"
@@ -55,11 +79,13 @@ const Modal = (props: ModalProps) => {
                 rows={4}
                 placeholder="write your text"
                 color="secondary"
+                value={enteredContent}
+                onChange={contentChangeHandler}
               />
             </form>
           </CardContent>
           <CardActions className={classes.buttonForm}>
-            <Button size="large">Submit</Button>
+            <Button size="large" onClick={addCardHandler}>Submit</Button>
           </CardActions>
         </Card>
       </div>

@@ -10,18 +10,32 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import useStyles from '../../styles/styles';
 import './Card.css';
+// import initialData from '../../state/card-data';
+// import initialData from '../../state/card-data';
 
 interface CardProps {
+  id: string;
   title: string;
   text: string;
   activeEdit: boolean;
+  deleteCard: any;
+  setDeleteCard: any;
+  onDeleteCard: any;
 }
 
 const Cards: React.FC<CardProps> = (props: CardProps) => {
   const classes = useStyles();
-  const { title, text, activeEdit } = props;
+  const {
+    id, title, text, activeEdit, deleteCard, setDeleteCard, onDeleteCard,
+  } = props;
+  const isDeleteCard = () => {
+    setDeleteCard(false);
+    onDeleteCard(id);
+    // initialData.forEach((i) => console.log(i.id));
+  };
+  const deleteCardHandler = () => {};
   return (
-    <main>
+    <main className={deleteCard ? 'delete__card' : 'delete__card'}>
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={12}>
@@ -44,7 +58,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                 <Button size="small" color="secondary">
                   Save
                 </Button>
-                <Button size="small" color="secondary">
+                <Button size="small" color="secondary" onClick={isDeleteCard} onChange={deleteCardHandler}>
                   Delete
                 </Button>
               </CardActions>

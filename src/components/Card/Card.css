@@ -4,3 +4,9 @@
 .editMode.active {
    visibility: visible;
 }
+.delete__card {
+   display: block;
+}
+.delete__card.active {
+   display: none;
+}

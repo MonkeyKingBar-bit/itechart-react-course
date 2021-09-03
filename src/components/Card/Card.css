@@ -5,8 +5,15 @@
    visibility: visible;
 }
 .delete__card {
-   display: block;
+   opacity: 1;
 }
 .delete__card.active {
-   display: none;
+   opacity: 0;
+   transition: opacity .4s ease-in-out;
+}
+.edit__card {
+   background-color: red;
+}
+.edit__card .active {
+   background-color: blue;
 }

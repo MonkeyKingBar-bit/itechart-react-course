@@ -11,8 +11,7 @@ const App = () => {
   const [cardList, setCardList] = useState(initialData);
   const [modalActive, setModalActive] = useState(false);
   const [editCardMode, setEditCardMode] = useState(false);
-  const [deleteCard, setDeleteCard] = useState(false);
-  const addCardHandler = (enteredTitle: any, enteredContent: any) => {
+  const addCardHandler = (enteredTitle: string, enteredContent: string) => {
     setCardList((prevCardList) => [
       ...prevCardList,
       { id: uuidv4(), title: enteredTitle, text: enteredContent },
@@ -23,6 +22,12 @@ const App = () => {
       ...prevCardList.filter((elem) => elem.id !== id),
     ]);
   };
+  // const saveCardHandler = (enteredTitle: string, enteredContent: string) => {
+  //   setCardList((prevCardList) => [
+  //     ...prevCardList,
+  //     { id: uuidv4(), title: enteredTitle, text: enteredContent },
+  //   ]);
+  // };
   return (
     <div className="app-wrapper">
       <Header
@@ -37,9 +42,8 @@ const App = () => {
             title={data.title}
             text={data.text}
             activeEdit={editCardMode}
-            deleteCard={deleteCard}
-            setDeleteCard={() => setDeleteCard(true)}
             onDeleteCard={deleteCardHandler}
+            // onSaveCard={saveCardHandler}
           />
         ))}
       </div>

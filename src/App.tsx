@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import React, { useState } from 'react';
 import './App.css';
@@ -11,6 +12,8 @@ const App = () => {
   const [cardList, setCardList] = useState(initialData);
   const [modalActive, setModalActive] = useState(false);
   const [editCardMode, setEditCardMode] = useState(false);
+  const [editCard, setEditCard] = useState(false);
+
   const addCardHandler = (enteredTitle: string, enteredContent: string) => {
     setCardList((prevCardList) => [
       ...prevCardList,
@@ -22,12 +25,24 @@ const App = () => {
       ...prevCardList.filter((elem) => elem.id !== id),
     ]);
   };
-  // const saveCardHandler = (enteredTitle: string, enteredContent: string) => {
+  // const editCardHandler = (enteredTitle: string, enteredContent: string) => {
   //   setCardList((prevCardList) => [
   //     ...prevCardList,
   //     { id: uuidv4(), title: enteredTitle, text: enteredContent },
   //   ]);
   // };
+  const saveCardHandler = (
+    id: string,
+    enteredTitle: string,
+    enteredContent: string,
+  ) => {
+    setCardList((prevCardList) => [
+      { id: uuidv4(), title: enteredTitle, text: enteredContent },
+      ...prevCardList.filter((elem) => elem.id !== id),
+    ]);
+    setEditCard(false);
+    setEditCardMode(false);
+  };
   return (
     <div className="app-wrapper">
       <Header
@@ -43,7 +58,12 @@ const App = () => {
             text={data.text}
             activeEdit={editCardMode}
             onDeleteCard={deleteCardHandler}
-            // onSaveCard={saveCardHandler}
+            editCard={editCard}
+            setEditCard={() => setEditCard(true)}
+            // editContent={editContent}
+            // setEditContent={() => setEditContent(true)}
+            // onEditCard={editCardHandler}
+            onSaveCard={saveCardHandler}
           />
         ))}
       </div>

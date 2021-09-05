@@ -9,7 +9,7 @@ interface InputProps {
    id: string;
    value: any;
    onChange: any;
-  //  disabled: any;
+   disabled: any;
    className: any;
    cols: number;
    rows: number;
@@ -33,7 +33,7 @@ const Input = React.forwardRef((props: InputProps, ref) => {
         id={props.id}
         value={props.value}
         onChange={props.onChange}
-        // disabled={props.disabled}
+        disabled={props.disabled}
         className={props.className}
         cols={props.cols}
         rows={props.rows}

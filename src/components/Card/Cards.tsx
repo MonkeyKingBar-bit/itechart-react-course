@@ -85,7 +85,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                     id={id}
                     value={editTitle}
                     onChange={titleChangeHandler}
-                    // disabled={editCard ? '' : 'disabled'}
+                    disabled={editCard ? '' : 'disabled'}
                     cols={10}
                     rows={2}
                     className="edit__card"
@@ -95,7 +95,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                     id={id}
                     value={editContent}
                     onChange={contentChangeHandler}
-                    // disabled={editCard ? '' : 'disabled'}
+                    disabled={editCard ? '' : 'disabled'}
                     cols={30}
                     rows={8}
                     className="edit__card active"

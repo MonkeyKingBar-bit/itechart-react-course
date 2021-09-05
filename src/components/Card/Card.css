@@ -11,9 +11,9 @@
    opacity: 0;
    transition: opacity .4s ease-in-out;
 }
-.edit__card {
-   visibility: visible;
+/* .edit__card {
+   background-color: orange;
 }
 .edit__card .active {
-   visibility: hidden;
-}
+   background-color: blue;
+} */

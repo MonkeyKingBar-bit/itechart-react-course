@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 // import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 // import { TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import useStyles from '../../styles/styles';
 import './Card.css';
 import Input from './Input/Input';
@@ -84,14 +85,20 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                     id={id}
                     value={editTitle}
                     onChange={titleChangeHandler}
-                    disabled={editCard ? false : 'disabled'}
+                    // disabled={editCard ? '' : 'disabled'}
+                    cols={10}
+                    rows={2}
+                    className="edit__card"
                   />
                   <Input
                     ref={contentInputRef}
                     id={id}
                     value={editContent}
                     onChange={contentChangeHandler}
-                    disabled={editCard ? '' : 'disabled'}
+                    // disabled={editCard ? '' : 'disabled'}
+                    cols={30}
+                    rows={8}
+                    className="edit__card active"
                   />
                   <div />
                 </form>

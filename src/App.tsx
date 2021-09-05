@@ -25,11 +25,8 @@ const App = () => {
       ...prevCardList.filter((elem) => elem.id !== id),
     ]);
   };
-  // const editCardHandler = (enteredTitle: string, enteredContent: string) => {
-  //   setCardList((prevCardList) => [
-  //     ...prevCardList,
-  //     { id: uuidv4(), title: enteredTitle, text: enteredContent },
-  //   ]);
+  // const editCardHandler = (id: string) => {
+  //   setEditCard(false)
   // };
   const saveCardHandler = (
     id: string,
@@ -37,8 +34,8 @@ const App = () => {
     enteredContent: string,
   ) => {
     setCardList((prevCardList) => [
-      { id: uuidv4(), title: enteredTitle, text: enteredContent },
       ...prevCardList.filter((elem) => elem.id !== id),
+      { id: uuidv4(), title: enteredTitle, text: enteredContent },
     ]);
     setEditCard(false);
     setEditCardMode(false);

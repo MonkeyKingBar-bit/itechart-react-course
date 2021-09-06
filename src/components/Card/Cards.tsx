@@ -1,7 +1,4 @@
-/* eslint-disable react/jsx-boolean-value */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import React, { useRef, useState } from 'react';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -11,10 +8,11 @@ import Grid from '@material-ui/core/Grid';
 // import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 // import { TextField } from '@material-ui/core';
-import { TextField } from '@material-ui/core';
+// import { TextField } from '@material-ui/core';
 import useStyles from '../../styles/styles';
 import './Card.css';
 import Input from './Input/Input';
+import ButtonCard from './Button/Button';
 
 interface CardProps {
   id: string;
@@ -25,6 +23,9 @@ interface CardProps {
   editCard: boolean;
   setEditCard: any;
   onSaveCard: any;
+  saveCard: boolean;
+  // onEditCard: any;
+  setSaveCard: any;
 }
 
 const Cards: React.FC<CardProps> = (props: CardProps) => {
@@ -39,6 +40,9 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     onDeleteCard,
     editCard,
     setEditCard,
+    // onEditCard,
+    saveCard,
+    setSaveCard,
     onSaveCard,
   } = props;
   const [editTitle, setEditTitle] = useState(title);
@@ -50,6 +54,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
       return;
     }
     setEditCard(false);
+    // onEditCard(id);
   };
   const isDeleteCard = () => {
     onDeleteCard(id);
@@ -58,14 +63,15 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     if (editTitle.trim().length === 0 || editContent.trim().length === 0) {
       return;
     }
-    setEditCard(false);
     onSaveCard(id, editTitle, editContent);
   };
   const titleChangeHandler = (event: any) => {
     setEditTitle(event.target.value);
+    setSaveCard(true);
   };
   const contentChangeHandler = (event: any) => {
     setEditContent(event.target.value);
+    setSaveCard(true);
   };
   return (
     <main>
@@ -88,7 +94,6 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                     disabled={editCard ? '' : 'disabled'}
                     cols={10}
                     rows={2}
-                    className="edit__card"
                   />
                   <Input
                     ref={contentInputRef}
@@ -97,8 +102,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                     onChange={contentChangeHandler}
                     disabled={editCard ? '' : 'disabled'}
                     cols={30}
-                    rows={8}
-                    className="edit__card active"
+                    rows={5}
                   />
                   <div />
                 </form>
@@ -125,15 +129,18 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
               <CardActions
                 className={activeEdit ? 'editMode active' : 'editMode'}
               >
-                <Button size="medium" color="secondary" onClick={isEditCard}>
+                {/* <Button size="medium" color="secondary" onClick={isEditCard}>
                   Edit
-                </Button>
-                <Button size="small" color="secondary" onClick={isSaveCard}>
+                </Button> */}
+                <ButtonCard name="Edit" disabled="" className="button" onClick={isEditCard} />
+                <ButtonCard name="Save" disabled={saveCard ? '' : 'disabled'} className="button" onClick={isSaveCard} />
+                <ButtonCard name="Delete" disabled="" className="button" onClick={isDeleteCard} />
+                {/* <Button size="small" color="secondary" onClick={isSaveCard}>
                   Save
-                </Button>
-                <Button size="small" color="secondary" onClick={isDeleteCard}>
+                </Button> */}
+                {/* <Button size="small" color="secondary" onClick={isDeleteCard}>
                   Delete
-                </Button>
+                </Button> */}
               </CardActions>
             </Card>
           </Grid>

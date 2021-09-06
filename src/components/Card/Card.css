@@ -9,7 +9,7 @@
 }
 .delete__card.active {
    opacity: 0;
-   transition: opacity .4s ease-in-out;
+   transition: opacity 0.4s ease-in-out;
 }
 /* .edit__card {
    background-color: orange;
@@ -17,3 +17,57 @@
 .edit__card .active {
    background-color: blue;
 } */
+.save__card {
+   background-color: green;
+}
+.save__card.active {
+   background-color: brown;
+}
+.modal {
+   height: 100vh;
+   width: 100vw;
+   background-color: rgba(0, 0, 0, 0.4);
+   position: fixed;
+   top: 0;
+   left: 0;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   opacity: 0;
+   pointer-events: none;
+   transition: 0.5s;
+}
+.modal.active {
+   opacity: 1;
+   pointer-events: all;
+}
+.button {
+   cursor: pointer;
+   text-decoration: none;
+   display: inline-grid;
+   width: 140px;
+   height: 45px;
+   line-height: 45px;
+   border-radius: 45px;
+   font-family: "Montserrat", sans-serif;
+   font-size: 11px;
+   text-transform: uppercase;
+   text-align: center;
+   letter-spacing: 3px;
+   font-weight: 600;
+   color: #524f4e;
+   background: white;
+   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+   transition: 0.3s;
+   border: none;
+   outline: none;
+}
+.button:hover {
+   background: #f50057;
+   box-shadow: 0 15px 20px rgba(245, 0, 87, 0.4);
+   color: white;
+   transform: translateY(-7px);
+}
+.button:disabled {
+   pointer-events: none;
+}

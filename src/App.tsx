@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
 import React, { useState } from 'react';
 import './App.css';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,6 +11,8 @@ const App = () => {
   const [modalActive, setModalActive] = useState(false);
   const [editCardMode, setEditCardMode] = useState(false);
   const [editCard, setEditCard] = useState(false);
+  // const [editCardActive, setEditCardActive] = useState(initialData);
+  const [saveCard, setSaveCard] = useState(false);
 
   const addCardHandler = (enteredTitle: string, enteredContent: string) => {
     setCardList((prevCardList) => [
@@ -26,7 +26,7 @@ const App = () => {
     ]);
   };
   // const editCardHandler = (id: string) => {
-  //   setEditCard(false)
+  //   // setSaveCard(true);
   // };
   const saveCardHandler = (
     id: string,
@@ -35,9 +35,10 @@ const App = () => {
   ) => {
     setCardList((prevCardList) => [
       ...prevCardList.filter((elem) => elem.id !== id),
-      { id: uuidv4(), title: enteredTitle, text: enteredContent },
+      { id, title: enteredTitle, text: enteredContent },
     ]);
     setEditCard(false);
+    setSaveCard(false);
     setEditCardMode(false);
   };
   return (
@@ -60,6 +61,8 @@ const App = () => {
             // editContent={editContent}
             // setEditContent={() => setEditContent(true)}
             // onEditCard={editCardHandler}
+            saveCard={saveCard}
+            setSaveCard={setSaveCard}
             onSaveCard={saveCardHandler}
           />
         ))}

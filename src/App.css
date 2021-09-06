@@ -3,6 +3,9 @@
     justify-content: center;
     grid-template-columns: repeat(auto-fit, minmax(200px, auto));
 }
+/* .save__card {
+  background-color: green;
+} */
 @media screen and (max-width: 768px) {
   .app-content {
     display: grid;

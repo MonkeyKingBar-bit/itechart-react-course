@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-boolean-value */
 import React, { useRef, useImperativeHandle } from 'react';
 // import { TextField } from '@material-ui/core';
 // import Typography from '@material-ui/core/Typography';
@@ -10,7 +9,6 @@ interface InputProps {
    value: any;
    onChange: any;
    disabled: any;
-   className: any;
    cols: number;
    rows: number;
 }
@@ -34,7 +32,6 @@ const Input = React.forwardRef((props: InputProps, ref) => {
         value={props.value}
         onChange={props.onChange}
         disabled={props.disabled}
-        className={props.className}
         cols={props.cols}
         rows={props.rows}
       />

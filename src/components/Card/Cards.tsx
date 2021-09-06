@@ -24,7 +24,7 @@ interface CardProps {
   setEditCard: any;
   onSaveCard: any;
   saveCard: boolean;
-  // onEditCard: any;
+  onEditCard: any;
   setSaveCard: any;
 }
 
@@ -40,7 +40,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     onDeleteCard,
     editCard,
     setEditCard,
-    // onEditCard,
+    onEditCard,
     saveCard,
     setSaveCard,
     onSaveCard,
@@ -54,7 +54,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
       return;
     }
     setEditCard(false);
-    // onEditCard(id);
+    onEditCard(id);
   };
   const isDeleteCard = () => {
     onDeleteCard(id);

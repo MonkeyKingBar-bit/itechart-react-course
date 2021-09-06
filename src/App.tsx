@@ -25,9 +25,10 @@ const App = () => {
       ...prevCardList.filter((elem) => elem.id !== id),
     ]);
   };
-  // const editCardHandler = (id: string) => {
-  //   // setSaveCard(true);
-  // };
+  const editCardHandler = (id: string) => {
+    initialData.slice(+id, 1);
+    // setSaveCard(true);
+  };
   const saveCardHandler = (
     id: string,
     enteredTitle: string,
@@ -60,7 +61,7 @@ const App = () => {
             setEditCard={() => setEditCard(true)}
             // editContent={editContent}
             // setEditContent={() => setEditContent(true)}
-            // onEditCard={editCardHandler}
+            onEditCard={editCardHandler}
             saveCard={saveCard}
             setSaveCard={setSaveCard}
             onSaveCard={saveCardHandler}

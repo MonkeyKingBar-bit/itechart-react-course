@@ -11,6 +11,7 @@ const App = () => {
   const [modalActive, setModalActive] = useState(false);
   const [editCardMode, setEditCardMode] = useState(false);
   const [editCard, setEditCard] = useState(false);
+  const [activeCancelBtn, setActiveCancelBtn] = useState(false);
   // const [editCardActive, setEditCardActive] = useState(initialData);
   const [saveCard, setSaveCard] = useState(false);
 
@@ -34,19 +35,29 @@ const App = () => {
     enteredTitle: string,
     enteredContent: string,
   ) => {
-    setCardList((prevCardList) => [
-      ...prevCardList.filter((elem) => elem.id !== id),
-      { id, title: enteredTitle, text: enteredContent },
-    ]);
+    cardList.map((obj) => ({
+      ...obj, id, title: enteredTitle, text: enteredContent,
+    }));
     setEditCard(false);
     setSaveCard(false);
+    // setEditCardMode(false);
+  };
+  const cancelHandler = () => {
+    setCardList(() => [
+      ...initialData,
+    ]);
     setEditCardMode(false);
+    setActiveCancelBtn(false);
   };
   return (
     <div className="app-wrapper">
       <Header
         setActive={() => setModalActive(true)}
+        activeEdit={editCardMode}
         setActiveEdit={() => setEditCardMode(true)}
+        activeCancel={activeCancelBtn}
+        // setCancelBtn={() => setActiveCancelBtn(true)}
+        cancelHandler={cancelHandler}
       />
       <div className="app-content">
         {cardList.map((data) => (

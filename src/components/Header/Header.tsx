@@ -7,15 +7,22 @@ import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
+import CancelIcon from '@material-ui/icons/Cancel';
+import Button from '@material-ui/core/Button';
 import useStyles from '../../styles/styles';
 
 interface HeaderProps {
+  activeEdit: boolean;
   setActive: any;
   setActiveEdit: any;
+  activeCancel: boolean;
+  cancelHandler: any;
 }
 
 const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
-  const { setActive, setActiveEdit } = props;
+  const {
+    setActive, setActiveEdit, activeCancel, activeEdit, cancelHandler,
+  } = props;
   const classes = useStyles();
   return (
     <header>
@@ -52,6 +59,18 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
             >
               <EditIcon />
             </Fab>
+            {activeEdit
+                && (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    className={`${activeCancel} ? ${classes.button} : `}
+                    startIcon={<CancelIcon />}
+                    onClick={cancelHandler}
+                  >
+                    Cancel
+                  </Button>
+                )}
           </div>
         </Toolbar>
       </AppBar>

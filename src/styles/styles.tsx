@@ -95,6 +95,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   buttonForm: {
     justifyContent: 'center',
   },
+  button: {
+    margin: theme.spacing(1),
+  },
 }));
 
 export default useStyles;

@@ -20,3 +20,6 @@ textarea:disabled {
   background: transparent;
   cursor: default;
 }
+.error-text {
+  color: #b40e0e;
+}

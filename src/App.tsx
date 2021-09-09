@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState } from 'react';
 import './App.css';
 import { v4 as uuidv4 } from 'uuid';
@@ -7,13 +8,14 @@ import initialData from './state/card-data';
 import Modal from './components/Card/CardModal/Modal';
 
 const App = () => {
-  const [cardList, setCardList] = useState(initialData);
+  const state = [...initialData];
+  const [cardList, setCardList] = useState(state);
   const [modalActive, setModalActive] = useState(false);
   const [editCardMode, setEditCardMode] = useState(false);
   const [editCard, setEditCard] = useState(false);
   const [activeCancelBtn, setActiveCancelBtn] = useState(false);
-  // const [editCardActive, setEditCardActive] = useState(initialData);
   const [saveCard, setSaveCard] = useState(false);
+  // const [isInEditMode, setIsEditMode] = useState(false);
 
   const addCardHandler = (enteredTitle: string, enteredContent: string) => {
     setCardList((prevCardList) => [
@@ -35,17 +37,22 @@ const App = () => {
     enteredTitle: string,
     enteredContent: string,
   ) => {
-    cardList.map((obj) => ({
-      ...obj, id, title: enteredTitle, text: enteredContent,
-    }));
+    setCardList(
+      state.map((obj) => {
+        if (obj.id === id) {
+          return { ...obj, title: enteredTitle, text: enteredContent };
+        }
+        return obj;
+      }),
+    );
+    // console.log(cardList);
+    // console.log(initialData);
     setEditCard(false);
     setSaveCard(false);
     // setEditCardMode(false);
   };
   const cancelHandler = () => {
-    setCardList(() => [
-      ...initialData,
-    ]);
+    // if (state !== initialData) setCardList(initialData);
     setEditCardMode(false);
     setActiveCancelBtn(false);
   };
@@ -70,12 +77,11 @@ const App = () => {
             onDeleteCard={deleteCardHandler}
             editCard={editCard}
             setEditCard={() => setEditCard(true)}
-            // editContent={editContent}
-            // setEditContent={() => setEditContent(true)}
-            onEditCard={editCardHandler}
             saveCard={saveCard}
             setSaveCard={setSaveCard}
             onSaveCard={saveCardHandler}
+            onEditCard={editCardHandler}
+            // onCancel={cancelHandler}
           />
         ))}
       </div>

@@ -5,10 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
-// import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-// import { TextField } from '@material-ui/core';
-// import { TextField } from '@material-ui/core';
 import useStyles from '../../styles/styles';
 import './Card.css';
 import Input from './Input/Input';
@@ -24,8 +21,8 @@ interface CardProps {
   setEditCard: any;
   onSaveCard: any;
   saveCard: boolean;
-  onEditCard: any;
   setSaveCard: any;
+  onEditCard: any;
 }
 
 const Cards: React.FC<CardProps> = (props: CardProps) => {
@@ -40,10 +37,11 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     onDeleteCard,
     editCard,
     setEditCard,
-    onEditCard,
     saveCard,
     setSaveCard,
     onSaveCard,
+    onEditCard,
+    // onCancel,
   } = props;
   const [editTitle, setEditTitle] = useState(title);
   const [editContent, setEditContent] = useState(text);
@@ -55,16 +53,23 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     }
     setEditCard(false);
     onEditCard(id);
+    // onCancel(id, editTitle, editContent);
   };
   const isDeleteCard = () => {
     onDeleteCard(id);
   };
   const isSaveCard = () => {
     if (editTitle.trim().length === 0 || editContent.trim().length === 0) {
+      // setEnteredIsValid(false);
       return;
     }
+    // setEnteredIsValid(true);
     onSaveCard(id, editTitle, editContent);
   };
+  // const onCancelEdit = () => {
+  //   setIsEditMode(true);
+  //   onCancel();
+  // };
   const titleChangeHandler = (event: any) => {
     setEditTitle(event.target.value);
     setSaveCard(true);
@@ -104,43 +109,29 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                     cols={30}
                     rows={5}
                   />
-                  <div />
                 </form>
-                {/* <form action="" onSubmit={submitHandler}>
-                  <TextField ref={titleInputRef} value={title}>
-                    {title}
-                  </TextField>
-                  <TextField ref={contentInputRef} value={text}>
-                    {text}
-                  </TextField>
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="h2"
-                    ref={titleInputRef}
-                  >
-                    {title}
-                  </Typography>
-                  <Typography ref={contentInputRef}>
-                    {text}
-                  </Typography>
-                </form> */}
               </CardContent>
               <CardActions
                 className={activeEdit ? 'editMode active' : 'editMode'}
               >
-                {/* <Button size="medium" color="secondary" onClick={isEditCard}>
-                  Edit
-                </Button> */}
-                <ButtonCard name="Edit" disabled="" className="button" onClick={isEditCard} />
-                <ButtonCard name="Save" disabled={saveCard ? '' : 'disabled'} className="button" onClick={isSaveCard} />
-                <ButtonCard name="Delete" disabled="" className="button" onClick={isDeleteCard} />
-                {/* <Button size="small" color="secondary" onClick={isSaveCard}>
-                  Save
-                </Button> */}
-                {/* <Button size="small" color="secondary" onClick={isDeleteCard}>
-                  Delete
-                </Button> */}
+                <ButtonCard
+                  name="Edit"
+                  disabled=""
+                  className="button"
+                  onClick={isEditCard}
+                />
+                <ButtonCard
+                  name="Save"
+                  disabled={saveCard ? '' : 'disabled'}
+                  className="button"
+                  onClick={isSaveCard}
+                />
+                <ButtonCard
+                  name="Delete"
+                  disabled=""
+                  className="button"
+                  onClick={isDeleteCard}
+                />
               </CardActions>
             </Card>
           </Grid>

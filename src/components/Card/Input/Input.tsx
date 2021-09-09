@@ -11,6 +11,7 @@ interface InputProps {
    disabled: any;
    cols: number;
    rows: number;
+  //  isValid: boolean;
 }
 
 const Input = React.forwardRef((props: InputProps, ref) => {
@@ -35,6 +36,7 @@ const Input = React.forwardRef((props: InputProps, ref) => {
         cols={props.cols}
         rows={props.rows}
       />
+      {/* {!props.isValid && <p className="error-text">Content must not be empty.</p>} */}
       {/* <TextField
         ref={inputRef}
         id={props.id}

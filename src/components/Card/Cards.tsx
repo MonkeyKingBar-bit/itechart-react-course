@@ -1,15 +1,15 @@
 // import Button from '@material-ui/core/Button';
-import React, { useRef, useState } from 'react';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
-import useStyles from '../../styles/styles';
-import './Card.css';
-import Input from './Input/Input';
-import ButtonCard from './Button/Button';
+import React, { useEffect, useRef, useState } from "react";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
+import useStyles from "../../styles/styles";
+import "./Card.css";
+import Input from "./Input/Input";
+import ButtonCard from "./Button/Button";
 
 interface CardProps {
   id: string;
@@ -23,6 +23,7 @@ interface CardProps {
   saveCard: boolean;
   setSaveCard: any;
   onEditCard: any;
+  isCanceled: boolean;
 }
 
 const Cards: React.FC<CardProps> = (props: CardProps) => {
@@ -41,10 +42,24 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     setSaveCard,
     onSaveCard,
     onEditCard,
+    isCanceled,
     // onCancel,
   } = props;
   const [editTitle, setEditTitle] = useState(title);
   const [editContent, setEditContent] = useState(text);
+  const [oldEditTitle, setOldEditTitle] = useState(title);
+  const [oldEditContent, setOldEditContent] = useState(text);
+
+  useEffect(() => {
+    if (isCanceled) {
+      setEditTitle(oldEditTitle);
+      setEditContent(oldEditContent);
+    } else {
+      setOldEditTitle(editTitle);
+      setOldEditContent(editContent);
+    }
+  }, [isCanceled]);
+
   const isEditCard = (event: any) => {
     event.preventDefault();
     titleInputRef.current?.focus();
@@ -96,7 +111,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                     id={id}
                     value={editTitle}
                     onChange={titleChangeHandler}
-                    disabled={editCard ? '' : 'disabled'}
+                    disabled={editCard ? "" : "disabled"}
                     cols={10}
                     rows={2}
                   />
@@ -105,14 +120,14 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                     id={id}
                     value={editContent}
                     onChange={contentChangeHandler}
-                    disabled={editCard ? '' : 'disabled'}
+                    disabled={editCard ? "" : "disabled"}
                     cols={30}
                     rows={5}
                   />
                 </form>
               </CardContent>
               <CardActions
-                className={activeEdit ? 'editMode active' : 'editMode'}
+                className={activeEdit ? "editMode active" : "editMode"}
               >
                 <ButtonCard
                   name="Edit"
@@ -122,7 +137,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                 />
                 <ButtonCard
                   name="Save"
-                  disabled={saveCard ? '' : 'disabled'}
+                  disabled={saveCard ? "" : "disabled"}
                   className="button"
                   onClick={isSaveCard}
                 />

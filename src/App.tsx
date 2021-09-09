@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
-import React, { useState } from 'react';
-import './App.css';
-import { v4 as uuidv4 } from 'uuid';
-import Header from './components/Header/Header';
-import Cards from './components/Card/Cards';
-import initialData from './state/card-data';
-import Modal from './components/Card/CardModal/Modal';
+import React, { useState } from "react";
+import "./App.css";
+import { v4 as uuidv4 } from "uuid";
+import Header from "./components/Header/Header";
+import Cards from "./components/Card/Cards";
+import initialData from "./state/card-data";
+import Modal from "./components/Card/CardModal/Modal";
 
 const App = () => {
   const state = [...initialData];
@@ -15,6 +15,7 @@ const App = () => {
   const [editCard, setEditCard] = useState(false);
   const [activeCancelBtn, setActiveCancelBtn] = useState(false);
   const [saveCard, setSaveCard] = useState(false);
+  const [isCanceled, setIsCanceled] = useState(false);
   // const [isInEditMode, setIsEditMode] = useState(false);
 
   const addCardHandler = (enteredTitle: string, enteredContent: string) => {
@@ -35,7 +36,7 @@ const App = () => {
   const saveCardHandler = (
     id: string,
     enteredTitle: string,
-    enteredContent: string,
+    enteredContent: string
   ) => {
     setCardList(
       state.map((obj) => {
@@ -43,7 +44,7 @@ const App = () => {
           return { ...obj, title: enteredTitle, text: enteredContent };
         }
         return obj;
-      }),
+      })
     );
     // console.log(cardList);
     // console.log(initialData);
@@ -52,10 +53,16 @@ const App = () => {
     // setEditCardMode(false);
   };
   const cancelHandler = () => {
-    // if (state !== initialData) setCardList(initialData);
+    setIsCanceled(true);
     setEditCardMode(false);
     setActiveCancelBtn(false);
   };
+
+  const exitHandler = () => {
+    setIsCanceled(false);
+    setEditCardMode(false);
+  };
+
   return (
     <div className="app-wrapper">
       <Header
@@ -65,10 +72,12 @@ const App = () => {
         activeCancel={activeCancelBtn}
         // setCancelBtn={() => setActiveCancelBtn(true)}
         cancelHandler={cancelHandler}
+        exitHandler={exitHandler}
       />
       <div className="app-content">
         {cardList.map((data) => (
           <Cards
+            isCanceled={isCanceled}
             key={data.id}
             id={data.id}
             title={data.title}

@@ -1,15 +1,15 @@
-import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
-import CancelIcon from '@material-ui/icons/Cancel';
-import Button from '@material-ui/core/Button';
-import useStyles from '../../styles/styles';
+import React from "react";
+import AppBar from "@material-ui/core/AppBar";
+import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+import EditIcon from "@material-ui/icons/Edit";
+import CancelIcon from "@material-ui/icons/Cancel";
+import Button from "@material-ui/core/Button";
+import useStyles from "../../styles/styles";
 
 interface HeaderProps {
   activeEdit: boolean;
@@ -17,11 +17,17 @@ interface HeaderProps {
   setActiveEdit: any;
   activeCancel: boolean;
   cancelHandler: any;
+  exitHandler: () => void;
 }
 
 const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
   const {
-    setActive, setActiveEdit, activeCancel, activeEdit, cancelHandler,
+    setActive,
+    setActiveEdit,
+    activeCancel,
+    activeEdit,
+    cancelHandler,
+    exitHandler,
   } = props;
   const classes = useStyles();
   return (
@@ -33,9 +39,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
             <DragIndicatorIcon className={classes.icon} />
             <Typography variant="h6" color="initial" noWrap>
               <div className={classes.header}>
-                <strong className={classes.headerTitle}>
-                  iTechArt
-                </strong>
+                <strong className={classes.headerTitle}>iTechArt</strong>
                 <p>React Course</p>
               </div>
             </Typography>
@@ -59,18 +63,27 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
             >
               <EditIcon />
             </Fab>
-            {activeEdit
-                && (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    className={`${activeCancel} ? ${classes.button} : `}
-                    startIcon={<CancelIcon />}
-                    onClick={cancelHandler}
-                  >
-                    Cancel
-                  </Button>
-                )}
+            {activeEdit && (
+              <Button
+                variant="contained"
+                color="secondary"
+                className={`${activeCancel} ? ${classes.button} : `}
+                startIcon={<CancelIcon />}
+                onClick={cancelHandler}
+              >
+                Cancel
+              </Button>
+            )}
+            {activeEdit && (
+              <Button
+                variant="contained"
+                color="secondary"
+                className={`${activeCancel} ? ${classes.button} : `}
+                onClick={exitHandler}
+              >
+                Exit
+              </Button>
+            )}
           </div>
         </Toolbar>
       </AppBar>

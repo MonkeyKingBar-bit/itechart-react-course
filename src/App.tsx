@@ -1,11 +1,11 @@
-/* eslint-disable no-console */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { v4 as uuidv4 } from "uuid";
 import Header from "./components/Header/Header";
 import Cards from "./components/Card/Cards";
 import initialData from "./state/card-data";
 import Modal from "./components/Card/CardModal/Modal";
+import useHttp from "./hooks/use-http";
 
 const App = () => {
   const state = [...initialData];
@@ -17,21 +17,21 @@ const App = () => {
   const [saveCard, setSaveCard] = useState(false);
   const [isCanceled, setIsCanceled] = useState(false);
 
-    fetch('https://jsonplaceholder.typicode.com/posts/')
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const transformedData = data.map((cardsData: any) => {
-          return {
-            id: cardsData.id,
-            title: cardsData.title,
-            text: cardsData.body,
-          };
-        });
-        setCardList(transformedData);
-      });
-
+  const { isLoading, error, sendRequest: fetchTasks } = useHttp();
+  useEffect(() => {
+    const transformTasks = (tasksObj: any) => {
+      const loadedTasks = [];
+      for (const taskKey in tasksObj) {
+        loadedTasks.push({ id: taskKey, title: tasksObj[taskKey].title,  text: tasksObj[taskKey].body });
+      }
+      setCardList(loadedTasks);
+    };
+    fetchTasks(
+      { url: 'https://jsonplaceholder.typicode.com/posts/' },
+      transformTasks
+    );
+  }, [fetchTasks]);
+ 
   const addCardHandler = (enteredTitle: string, enteredContent: string) => {
     setCardList((prevCardList) => [
       ...prevCardList,
@@ -42,9 +42,6 @@ const App = () => {
     setCardList((prevCardList) => [
       ...prevCardList.filter((elem) => elem.id !== id),
     ]);
-  };
-  const editCardHandler = (id: string) => {
-    initialData.slice(+id, 1);
   };
   const saveCardHandler = (
     id: string,
@@ -72,6 +69,40 @@ const App = () => {
     setEditCardMode(false);
   };
 
+  let content = <p>Found no movies.</p>;
+
+  if (cardList.length > 0) {
+    content = (
+      <div className="app-content">
+      {cardList.map((data) => (
+        <Cards
+          isCanceled={isCanceled}
+          key={data.id}
+          id={data.id}
+          title={data.title}
+          text={data.text}
+          activeEdit={editCardMode}
+          onDeleteCard={deleteCardHandler}
+          editCard={editCard}
+          setEditCard={() => setEditCard(true)}
+          saveCard={saveCard}
+          setSaveCard={setSaveCard}
+          onSaveCard={saveCardHandler}
+          loading={isLoading}
+          error={error}
+        />
+      ))}
+    </div>
+    )
+  }
+  if (error) {
+    content = <p className='error'>{error}</p>;
+  }
+
+  if (isLoading) {
+    content = <p>Loading...</p>;
+  }
+
   return (
     <div className="app-wrapper">
       <Header
@@ -82,25 +113,7 @@ const App = () => {
         cancelHandler={cancelHandler}
         exitHandler={exitHandler}
       />
-      <div className="app-content">
-        {cardList.map((data) => (
-          <Cards
-            isCanceled={isCanceled}
-            key={data.id}
-            id={data.id}
-            title={data.title}
-            text={data.text}
-            activeEdit={editCardMode}
-            onDeleteCard={deleteCardHandler}
-            editCard={editCard}
-            setEditCard={() => setEditCard(true)}
-            saveCard={saveCard}
-            setSaveCard={setSaveCard}
-            onSaveCard={saveCardHandler}
-            onEditCard={editCardHandler}
-          />
-        ))}
-      </div>
+      <section className="container">{content}</section>
       <Modal
         active={modalActive}
         setActive={setModalActive}

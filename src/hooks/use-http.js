@@ -1,4 +1,3 @@
-
 import { useState, useCallback } from 'react';
 
 const useHttp = () => {
@@ -16,7 +15,7 @@ const useHttp = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Request failed!');
+        throw new Error('Request failed! Try again ...');
       }
 
       const data = await response.json();

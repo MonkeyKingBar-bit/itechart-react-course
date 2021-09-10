@@ -22,8 +22,9 @@ interface CardProps {
   onSaveCard: any;
   saveCard: boolean;
   setSaveCard: any;
-  onEditCard: any;
   isCanceled: boolean;
+  loading: boolean;
+  error: any;
 }
 
 const Cards: React.FC<CardProps> = (props: CardProps) => {
@@ -41,8 +42,9 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     saveCard,
     setSaveCard,
     onSaveCard,
-    onEditCard,
     isCanceled,
+    loading,
+    error,
   } = props;
   const [editTitle, setEditTitle] = useState(title);
   const [editContent, setEditContent] = useState(text);
@@ -66,7 +68,6 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
       return;
     }
     setEditCard(false);
-    onEditCard(id);
   };
   const isDeleteCard = () => {
     onDeleteCard(id);
@@ -85,6 +86,9 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     setEditContent(event.target.value);
     setSaveCard(true);
   };
+  if (error) { <p>Try again</p>; }
+
+  if (loading) { <p>'Loading tasks...'</p>; }
   return (
     <main>
       <Container className={classes.cardGrid} maxWidth="md">

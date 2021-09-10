@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // import Button from '@material-ui/core/Button';
 import React, { useEffect, useRef, useState } from "react";
 import Card from "@material-ui/core/Card";
@@ -43,7 +44,6 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     onSaveCard,
     onEditCard,
     isCanceled,
-    // onCancel,
   } = props;
   const [editTitle, setEditTitle] = useState(title);
   const [editContent, setEditContent] = useState(text);
@@ -68,23 +68,16 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     }
     setEditCard(false);
     onEditCard(id);
-    // onCancel(id, editTitle, editContent);
   };
   const isDeleteCard = () => {
     onDeleteCard(id);
   };
   const isSaveCard = () => {
     if (editTitle.trim().length === 0 || editContent.trim().length === 0) {
-      // setEnteredIsValid(false);
       return;
     }
-    // setEnteredIsValid(true);
     onSaveCard(id, editTitle, editContent);
   };
-  // const onCancelEdit = () => {
-  //   setIsEditMode(true);
-  //   onCancel();
-  // };
   const titleChangeHandler = (event: any) => {
     setEditTitle(event.target.value);
     setSaveCard(true);

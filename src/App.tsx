@@ -16,7 +16,6 @@ const App = () => {
   const [activeCancelBtn, setActiveCancelBtn] = useState(false);
   const [saveCard, setSaveCard] = useState(false);
   const [isCanceled, setIsCanceled] = useState(false);
-  // const [isInEditMode, setIsEditMode] = useState(false);
 
   const addCardHandler = (enteredTitle: string, enteredContent: string) => {
     setCardList((prevCardList) => [
@@ -31,7 +30,6 @@ const App = () => {
   };
   const editCardHandler = (id: string) => {
     initialData.slice(+id, 1);
-    // setSaveCard(true);
   };
   const saveCardHandler = (
     id: string,
@@ -46,18 +44,14 @@ const App = () => {
         return obj;
       })
     );
-    // console.log(cardList);
-    // console.log(initialData);
     setEditCard(false);
     setSaveCard(false);
-    // setEditCardMode(false);
   };
   const cancelHandler = () => {
     setIsCanceled(true);
     setEditCardMode(false);
     setActiveCancelBtn(false);
   };
-
   const exitHandler = () => {
     setIsCanceled(false);
     setEditCardMode(false);
@@ -70,7 +64,6 @@ const App = () => {
         activeEdit={editCardMode}
         setActiveEdit={() => setEditCardMode(true)}
         activeCancel={activeCancelBtn}
-        // setCancelBtn={() => setActiveCancelBtn(true)}
         cancelHandler={cancelHandler}
         exitHandler={exitHandler}
       />
@@ -90,7 +83,6 @@ const App = () => {
             setSaveCard={setSaveCard}
             onSaveCard={saveCardHandler}
             onEditCard={editCardHandler}
-            // onCancel={cancelHandler}
           />
         ))}
       </div>

@@ -11,36 +11,6 @@
    opacity: 0;
    transition: opacity 0.4s ease-in-out;
 }
-/* .edit__card {
-   background-color: orange;
-}
-.edit__card .active {
-   background-color: blue;
-} */
-.save__card {
-   background-color: green;
-}
-.save__card.active {
-   background-color: brown;
-}
-.modal {
-   height: 100vh;
-   width: 100vw;
-   background-color: rgba(0, 0, 0, 0.4);
-   position: fixed;
-   top: 0;
-   left: 0;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   opacity: 0;
-   pointer-events: none;
-   transition: 0.5s;
-}
-.modal.active {
-   opacity: 1;
-   pointer-events: all;
-}
 .button {
    cursor: pointer;
    text-decoration: none;

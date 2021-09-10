@@ -17,6 +17,21 @@ const App = () => {
   const [saveCard, setSaveCard] = useState(false);
   const [isCanceled, setIsCanceled] = useState(false);
 
+    fetch('https://jsonplaceholder.typicode.com/posts/')
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        const transformedData = data.map((cardsData: any) => {
+          return {
+            id: cardsData.id,
+            title: cardsData.title,
+            text: cardsData.body,
+          };
+        });
+        setCardList(transformedData);
+      });
+
   const addCardHandler = (enteredTitle: string, enteredContent: string) => {
     setCardList((prevCardList) => [
       ...prevCardList,

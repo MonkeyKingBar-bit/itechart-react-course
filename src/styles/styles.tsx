@@ -98,6 +98,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   button: {
     margin: theme.spacing(1),
   },
+  buttonCard: {
+    display: 'grid',
+  }
 }));
 
 export default useStyles;

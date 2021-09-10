@@ -1,0 +1,38 @@
+import React, { useRef, useImperativeHandle } from 'react';
+import classes from './Input.module.css';
+interface InputProps {
+   id: string;
+   value: any;
+   onChange: any;
+   disabled: any;
+   cols: number;
+   rows: number;
+}
+
+const Input = React.forwardRef((props: InputProps, ref) => {
+  const inputRef = useRef<any>(null);
+  const activate = () => {
+    inputRef.current?.focus();
+  };
+  useImperativeHandle(ref, () => ({
+    focus: activate,
+  }));
+
+  return (
+    <div
+      className={classes.control}
+    >
+      <textarea
+        ref={inputRef}
+        id={props.id}
+        value={props.value}
+        onChange={props.onChange}
+        disabled={props.disabled}
+        cols={props.cols}
+        rows={props.rows}
+      />
+    </div>
+  );
+});
+
+export default Input;

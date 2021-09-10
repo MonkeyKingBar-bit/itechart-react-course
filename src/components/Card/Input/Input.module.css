@@ -1,0 +1,22 @@
+.control {
+  display: grid;
+}
+.control textarea {
+  cursor: pointer;
+  padding: 0.35rem 0.35rem;
+  flex: 3;
+  font: inherit;
+  display: block;
+  border: none;
+  resize: none;
+  overflow: auto;
+  text-align: center;
+}
+.control textarea:focus {
+  outline: none;
+  background: rgba(245, 0, 87, 0.2);
+}
+textarea:disabled {
+  background: transparent;
+  cursor: default;
+}

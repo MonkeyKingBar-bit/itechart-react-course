@@ -37,10 +37,26 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
   },
+  cardGridActive: {
+    height: '100vh',
+    width: '100vw',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    opacity: 0,
+    pointerEvents: 'none',
+    transition: '0.5s',
+  },
   card: {
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
+    opacity: 1,
+    pointerEvents: 'all',
   },
   cardMedia: {
     paddingTop: '56.25%', // 16:9
@@ -78,6 +94,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   buttonForm: {
     justifyContent: 'center',
+  },
+  button: {
+    margin: theme.spacing(1),
   },
 }));
 

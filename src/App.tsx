@@ -49,7 +49,7 @@ const App = () => {
     enteredContent: string
   ) => {
     setCardList(
-      state.map((obj) => {
+      cardList.map((obj) => {
         if (obj.id === id) {
           return { ...obj, title: enteredTitle, text: enteredContent };
         }
@@ -69,7 +69,15 @@ const App = () => {
     setEditCardMode(false);
   };
 
-  let content = <p>Found no movies.</p>;
+  let content = <p>Found no cards.</p>;
+
+  if (error) {
+    content = <p className='error'>{error}</p>;
+  }
+
+  if (isLoading) {
+    content = <p>Loading...</p>;
+  }
 
   if (cardList.length > 0) {
     content = (
@@ -95,14 +103,6 @@ const App = () => {
     </div>
     )
   }
-  if (error) {
-    content = <p className='error'>{error}</p>;
-  }
-
-  if (isLoading) {
-    content = <p>Loading...</p>;
-  }
-
   return (
     <div className="app-wrapper">
       <Header

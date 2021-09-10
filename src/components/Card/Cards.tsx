@@ -88,7 +88,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
   };
   if (error) { <p>Try again</p>; }
 
-  if (loading) { <p>'Loading tasks...'</p>; }
+  if (loading) { <p>'Loading cards...'</p>; }
   return (
     <main>
       <Container className={classes.cardGrid} maxWidth="md">
@@ -101,7 +101,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                 title="Image title"
               />
               <CardContent className={classes.cardContent}>
-                <form>
+                <form onSubmit={isSaveCard}>
                   <Input
                     ref={titleInputRef}
                     id={id}

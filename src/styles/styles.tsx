@@ -101,6 +101,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   buttonCard: {
     display: 'grid',
+  },
+  wrapper: {
+    backgroundImage: 'background-image: url("https://source.unsplash.com/random")'
+  },
+  mainTitle: {
+    color: '#f50057',
   }
 }));
 

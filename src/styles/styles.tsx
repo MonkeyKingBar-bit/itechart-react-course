@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   headerColor: {
+    position: 'fixed',
     backgroundColor: '#000',
     color: '#fff',
     zIndex: 0,
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
+    paddingBottom: theme.spacing(2),
   },
   cardGridActive: {
     height: '100vh',
@@ -98,6 +99,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   button: {
     margin: theme.spacing(1),
   },
+  buttonCard: {
+    display: 'grid',
+  }
 }));
 
 export default useStyles;

@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -9,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import useStyles from '../../../styles/styles';
 import './Modal.css';
+import useHttp from '../../../hooks/use-http';
+import { v4 as uuidv4 } from "uuid";
 
 interface ModalProps {
   active: boolean;
@@ -21,6 +21,14 @@ const Modal = (props: ModalProps) => {
   const classes = useStyles();
   const [enteredTitle, setEnteredTitle] = useState('');
   const [enteredContent, setEnteredContent] = useState('');
+  const { isLoading, error, sendRequest: sendTaskRequest } = useHttp();
+
+  const createCard = ({taskTitle, taskText, taskData}:any) => {
+    const createdTask = { id: uuidv4(), title: taskTitle, text: taskText };
+
+    onAddCard(createdTask);
+  };
+
   const addCardHandler = (event: any) => {
     event.preventDefault();
     if (enteredTitle.trim().length === 0 || enteredContent.trim().length === 0) {
@@ -36,6 +44,19 @@ const Modal = (props: ModalProps) => {
   };
   const contentChangeHandler = (event: any) => {
     setEnteredContent(event.target.value);
+  };
+  const enterCardHandler = async ({taskTitle, taskText}:any) => {
+    sendTaskRequest(
+      {
+        url: 'https://jsonplaceholder.typicode.com/posts/',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: { title: taskTitle, text: taskText },
+      },
+      createCard.bind(null, taskTitle, taskText)
+    );
   };
 
   return (
@@ -61,7 +82,7 @@ const Modal = (props: ModalProps) => {
               className={classes.form}
               noValidate
               autoComplete="off"
-              onSubmit={addCardHandler}
+              onSubmit={enterCardHandler}
             >
               <TextField
                 id="standard-basic"
@@ -84,9 +105,10 @@ const Modal = (props: ModalProps) => {
             </form>
           </CardContent>
           <CardActions className={classes.buttonForm}>
-            <Button size="large" onClick={addCardHandler}>Submit</Button>
+            <Button size="large" onClick={addCardHandler}>{isLoading ? 'Sending' : 'Create card'}</Button>
           </CardActions>
         </Card>
+        {error && <p>{error}</p>}
       </div>
     </div>
   );

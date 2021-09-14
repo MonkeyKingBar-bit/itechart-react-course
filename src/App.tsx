@@ -8,6 +8,7 @@ import initialData from "./state/card-data";
 import Modal from "./components/Card/CardModal/Modal";
 import useHttp from "./hooks/use-http";
 import MainPage from "./components/MainPage/MainPage";
+import TemporaryDrawer from "./components/Card/Sidebar/Sidebar";
 
 const App = () => {
   const state = [...initialData];
@@ -127,7 +128,10 @@ const App = () => {
             cancelHandler={cancelHandler}
             exitHandler={exitHandler}
           />
-          <section className="container">{content}</section>
+          <section className="container">
+            <TemporaryDrawer /> 
+            {content}
+          </section>
         </Route>
       </Switch>
       <Modal

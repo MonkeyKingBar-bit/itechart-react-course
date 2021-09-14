@@ -86,11 +86,16 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     setEditContent(event.target.value);
     setSaveCard(true);
   };
-  if (error) { <p>Try again</p>; }
+  if (error) {
+    <p>Try again</p>;
+  }
 
-  if (loading) { <p>'Loading cards...'</p>; }
+  if (loading) {
+    <p>'Loading cards...'</p>;
+  }
   return (
     <main>
+      
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={12}>

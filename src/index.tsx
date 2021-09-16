@@ -1,10 +1,12 @@
-/* eslint-disable react/jsx-filename-extension */
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-unresolved */
-/* eslint-disable no-use-before-define */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+   <BrowserRouter>
+     <App />
+   </BrowserRouter>,
+   document.getElementById('root')
+ );

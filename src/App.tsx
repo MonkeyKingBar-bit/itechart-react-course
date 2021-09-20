@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch, Redirect, useHistory } from "react-router-dom";
+import { Route, Switch, Redirect, useHistory, Link } from "react-router-dom";
 import "./App.css";
 import { v4 as uuidv4 } from "uuid";
 import Header from "./components/Header/Header";
@@ -94,11 +94,28 @@ const App = () => {
   if (cardList.length > 0) {
     content = (
       <div className="app-content">
-        <CardTabs
-          cardList={cardList}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-        />
+        {activeTab === 0 &&
+          cardList.map((data) => (
+            <Cards
+              isCanceled={isCanceled}
+              key={data.id}
+              id={data.id}
+              title={data.title}
+              text={data.text}
+              activeEdit={editCardMode}
+              onDeleteCard={deleteCardHandler}
+              editCard={editCard}
+              setEditCard={() => setEditCard(true)}
+              saveCard={saveCard}
+              setSaveCard={setSaveCard}
+              onSaveCard={saveCardHandler}
+              loading={isLoading}
+              error={error}
+            />
+          ))}
+        {/* {content} */}
+        {/* <CardDetails items={cardList} />*/}
+
         {/* {cardList.map((data) => (
           <Cards
             isCanceled={isCanceled}
@@ -130,7 +147,23 @@ const App = () => {
           <MainPage />
         </Route>
         <Route path="/cards" exact>
-          {/* <Header
+          <Header
+            setActive={() => setModalActive(true)}
+            activeEdit={editCardMode}
+            setActiveEdit={() => setEditCardMode(true)}
+            activeCancel={activeCancelBtn}
+            cancelHandler={cancelHandler}
+            exitHandler={exitHandler}
+          />
+          {/* <CardTabs items={cardList} />*/}
+          <section className="container">
+            <TemporaryDrawer />
+            <CardTabs
+              cardList={cardList}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+            />
+            {/* <Header
             setActive={() => setModalActive(true)}
             activeEdit={editCardMode}
             setActiveEdit={() => setEditCardMode(true)}
@@ -138,11 +171,12 @@ const App = () => {
             cancelHandler={cancelHandler}
             exitHandler={exitHandler}
           /> */}
-          {/* <CardTabs items={cardList} />*/}
-          {/* <section className="container"> */}
-          {/* <CardDetail /> */}
-          {/* <TemporaryDrawer /> */}
-          {content}
+            {/* <CardTabs items={cardList} />*/}
+            {/* <section className="container"> */}
+            {/* <CardDetail /> */}
+            {/* <TemporaryDrawer /> */}
+            {content}
+          </section>
           {/* <CardDetails items={cardList} />*/}
           {/* </section> */}
         </Route>
@@ -156,8 +190,15 @@ const App = () => {
             exitHandler={exitHandler}
           />
           {/* <CardTabs items={cardList} />*/}
+          {/* <TemporaryDrawer /> */}
           <section className="container">
             <TemporaryDrawer />
+            <CardTabs
+              cardList={cardList}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+            />
+            {content}
             {cardList[activeTab] && (
               <CardDetail
                 {...cardList[activeTab]}
@@ -173,11 +214,6 @@ const App = () => {
                 error={error}
               />
             )}
-            <CardTabs
-              cardList={cardList}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
             {/* {content} */}
             {/* <CardDetails items={cardList} />*/}
           </section>

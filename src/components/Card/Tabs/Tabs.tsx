@@ -22,6 +22,9 @@ const CardTabs = (props: cardTabs) => {
       //   history.push(`/cards/card_${data.id}`);
       // }}
     >
+      {/* {cardList.forEach(() => {
+        cardList[0].title = "All cards";
+      })} */}
       {cardList.map(
         (
           n: {
@@ -42,7 +45,7 @@ const CardTabs = (props: cardTabs) => {
               onClick={openTab}
               data-index={i}
             >
-              {n.title}
+              {i === 0 ? "All cards" : n.title}
             </button>
           </Link>
         )

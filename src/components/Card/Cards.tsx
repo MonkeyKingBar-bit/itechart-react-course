@@ -95,7 +95,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     <p>'Loading cards...'</p>;
   }
   return (
-    <main>
+    <main className={classes.cardMain}>
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={12}>

@@ -1,9 +1,15 @@
 .tab {
-   overflow: hidden;
+   overflow: scroll;
    border: 1px solid #ccc;
    background-color: white;
- }
- 
+   height: 30vh;
+   align-items: center;
+   justify-content: center;
+   display: grid;
+   grid-template-columns: repeat(6, 1fr);
+   grid-template-rows: repeat(1, 80px);
+   gap: 5px;
+}
  
  .tab button {
    background-color: inherit;

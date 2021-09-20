@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Route, Switch, Redirect, useHistory, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import { v4 as uuidv4 } from "uuid";
 import Header from "./components/Header/Header";
@@ -22,7 +22,6 @@ const App = () => {
   const [saveCard, setSaveCard] = useState(false);
   const [isCanceled, setIsCanceled] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
-  let history = useHistory();
 
   const { isLoading, error, sendRequest: fetchTasks } = useHttp();
   useEffect(() => {
@@ -54,7 +53,6 @@ const App = () => {
       ...prevCardList.filter((elem) => elem.id !== id),
     ]);
   };
-  // const tabsCard = (id: )
   const saveCardHandler = (
     id: string,
     enteredTitle: string,
@@ -113,27 +111,6 @@ const App = () => {
               error={error}
             />
           ))}
-        {/* {content} */}
-        {/* <CardDetails items={cardList} />*/}
-
-        {/* {cardList.map((data) => (
-          <Cards
-            isCanceled={isCanceled}
-            key={data.id}
-            id={data.id}
-            title={data.title}
-            text={data.text}
-            activeEdit={editCardMode}
-            onDeleteCard={deleteCardHandler}
-            editCard={editCard}
-            setEditCard={() => setEditCard(true)}
-            saveCard={saveCard}
-            setSaveCard={setSaveCard}
-            onSaveCard={saveCardHandler}
-            loading={isLoading}
-            error={error}
-          />
-        ))} */}
       </div>
     );
   }
@@ -155,7 +132,6 @@ const App = () => {
             cancelHandler={cancelHandler}
             exitHandler={exitHandler}
           />
-          {/* <CardTabs items={cardList} />*/}
           <section className="container">
             <TemporaryDrawer />
             <CardTabs
@@ -163,22 +139,8 @@ const App = () => {
               activeTab={activeTab}
               setActiveTab={setActiveTab}
             />
-            {/* <Header
-            setActive={() => setModalActive(true)}
-            activeEdit={editCardMode}
-            setActiveEdit={() => setEditCardMode(true)}
-            activeCancel={activeCancelBtn}
-            cancelHandler={cancelHandler}
-            exitHandler={exitHandler}
-          /> */}
-            {/* <CardTabs items={cardList} />*/}
-            {/* <section className="container"> */}
-            {/* <CardDetail /> */}
-            {/* <TemporaryDrawer /> */}
             {content}
           </section>
-          {/* <CardDetails items={cardList} />*/}
-          {/* </section> */}
         </Route>
         <Route exact path="/cards/:cardId">
           <Header
@@ -189,8 +151,6 @@ const App = () => {
             cancelHandler={cancelHandler}
             exitHandler={exitHandler}
           />
-          {/* <CardTabs items={cardList} />*/}
-          {/* <TemporaryDrawer /> */}
           <section className="container">
             <TemporaryDrawer />
             <CardTabs
@@ -214,22 +174,7 @@ const App = () => {
                 error={error}
               />
             )}
-            {/* {content} */}
-            {/* <CardDetails items={cardList} />*/}
           </section>
-          {/* <CardDetail /> */}
-          {/* <CardDetail
-            isCanceled={isCanceled}
-            activeEdit={editCardMode}
-            onDeleteCard={deleteCardHandler}
-            editCard={editCard}
-            setEditCard={() => setEditCard(true)}
-            saveCard={saveCard}
-            setSaveCard={setSaveCard}
-            onSaveCard={saveCardHandler}
-            loading={isLoading}
-            error={error}
-          /> */}
         </Route>
       </Switch>
       <Modal

@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Tabs, Tab, Box } from "@material-ui/core";
 import { ReactChild, ReactFragment, ReactPortal } from "react";
 import "./Tabs.css";
 
@@ -18,13 +17,7 @@ const CardTabs = (props: cardTabs) => {
   return (
     <div
       className="tab"
-      // onChange={() => {
-      //   history.push(`/cards/card_${data.id}`);
-      // }}
     >
-      {/* {cardList.forEach(() => {
-        cardList[0].title = "All cards";
-      })} */}
       {cardList.map(
         (
           n: {

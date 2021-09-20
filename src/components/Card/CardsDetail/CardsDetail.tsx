@@ -1,9 +1,4 @@
-import React, { useState } from "react";
-import { useHistory, useParams } from "react-router";
-import { Link } from "react-router-dom";
-import { Tabs, Tab, AppBar } from "@material-ui/core";
 import Cards from "../Cards";
-import CardTabs from "./CardTabs";
 
 const CardDetail = (props: any) => {
   return (

@@ -10,7 +10,6 @@ import EditIcon from "@material-ui/icons/Edit";
 import CancelIcon from "@material-ui/icons/Cancel";
 import Button from "@material-ui/core/Button";
 import useStyles from "../../styles/styles";
-import TemporaryDrawer from "../Card/Sidebar/Sidebar";
 
 interface HeaderProps {
   activeEdit: boolean;

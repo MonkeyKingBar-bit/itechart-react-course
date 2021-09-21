@@ -23,20 +23,32 @@ const commonSlice = createSlice({
       state.isEditCardMode = true;
     },
     setEditCardMode: (state) => {
-      state.isEditCardMode = true;
+      state.isEditCardMode = false;
     },
     editCard: (state) => {
       state.isEditCard = true;
     },
+    setEditCard: (state) => {
+      state.isEditCard = false;
+    },
     activeCancelBtn: (state) => {
       state.isActiveCancelBtn = true;
+    },
+    setCancelBtn: (state) => {
+      state.isActiveCancelBtn = false;
     },
     saveCard: (state) => {
       state.isSaveCard = true;
     },
-    canceled: (state) => {
+    setSaveCard: (state) => {
+      state.isSaveCard = false;
+    },
+    isCanceled: (state) => {
       state.isCanceled = true;
-    }
+    },
+    setIsCanceled: (state) => {
+      state.isCanceled = false;
+    },
   },
 });
 

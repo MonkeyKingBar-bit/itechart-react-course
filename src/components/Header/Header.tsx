@@ -14,15 +14,18 @@ import { commonActions } from "../../store/slice/common";
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
 
 interface HeaderProps {
-  activeCancel: boolean;
   cancelHandler: any;
   exitHandler: () => void;
 }
 
 const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
   const isEditCardMode = useAppSelector((state) => state.common.isEditCardMode);
+  const isActiveCancelBtn = useAppSelector(
+    (state) => state.common.isActiveCancelBtn
+  );
+
   const dispatch = useAppDispatch();
-  const { activeCancel, cancelHandler, exitHandler } = props;
+  const {  cancelHandler, exitHandler } = props;
   const classes = useStyles();
   return (
     <header>
@@ -61,7 +64,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
               <Button
                 variant="contained"
                 color="secondary"
-                className={`${activeCancel} ? ${classes.button} : `}
+                className={`${!isActiveCancelBtn} ? ${classes.button} : `}
                 startIcon={<CancelIcon />}
                 onClick={cancelHandler}
               >
@@ -72,7 +75,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
               <Button
                 variant="contained"
                 color="secondary"
-                className={`${activeCancel} ? ${classes.button} : `}
+                className={`${!isActiveCancelBtn} ? ${classes.button} : `}
                 onClick={exitHandler}
               >
                 Exit

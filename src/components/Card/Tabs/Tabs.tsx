@@ -1,18 +1,17 @@
 import { Link } from "react-router-dom";
 import { ReactChild, ReactFragment, ReactPortal } from "react";
+import { useAppDispatch, useAppSelector } from "../../.././hooks/hooks";
+import { tabActions } from "../../../store/slice/tab";
 import "./Tabs.css";
 
 interface cardTabs {
   cardList: any;
-  setActiveTab: any;
-  activeTab: number;
 }
 
 const CardTabs = (props: cardTabs) => {
-  const { cardList, activeTab, setActiveTab } = props;
-  const openTab = (e: any) => {
-    setActiveTab(+e.target.dataset.index);
-  };
+  const { cardList } = props;
+  const dispatch = useAppDispatch();
+  const tabSelector = useAppSelector((state) => state.tab.activeTab);
 
   return (
     <div className="tab">
@@ -32,8 +31,10 @@ const CardTabs = (props: cardTabs) => {
         ) => (
           <Link to={`/cards/${n.id}`} key={n.id}>
             <button
-              className={`tablinks ${i === activeTab ? "active" : ""}`}
-              onClick={openTab}
+              className={`tablinks ${i === tabSelector ? "active" : ""}`}
+              onClick={(e: any) =>
+                dispatch(tabActions.setActiveTab(+e.target.dataset.index))
+              }
               data-index={i}
             >
               {i === 0 ? "All cards" : n.title}

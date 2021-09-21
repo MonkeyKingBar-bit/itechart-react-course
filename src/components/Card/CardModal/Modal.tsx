@@ -12,6 +12,7 @@ import { useAppSelector, useAppDispatch } from "../../../hooks/hooks";
 
 import { v4 as uuidv4 } from "uuid";
 import { commonActions } from "../../../store/slice/common";
+// import { addCardActions } from "../../../store/slice/addCard";
 
 interface ModalProps {
   onAddCard: any;
@@ -21,34 +22,43 @@ const Modal = (props: ModalProps) => {
   const { onAddCard } = props;
   const classes = useStyles();
   const modalSelector = useAppSelector((state) => state.common.isModalActive);
-  const modalDispatch = useAppDispatch();
+  const addTitle = useAppSelector((state) => state.addCard.title);
+  const addText = useAppSelector((state) => state.addCard.text);
+
+  const dispatch = useAppDispatch();
+
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredContent, setEnteredContent] = useState("");
+
   const { isLoading, error, sendRequest: sendTaskRequest } = useHttp();
 
   const createCard = ({ taskTitle, taskText }: any) => {
     const createdTask = { id: uuidv4(), title: taskTitle, text: taskText };
-
+    // dispatch(addCardActions.addCard(createdTask));
     onAddCard(createdTask);
   };
 
   const addCardHandler = (event: any) => {
     event.preventDefault();
-    if (
-      enteredTitle.trim().length === 0 ||
-      enteredContent.trim().length === 0
-    ) {
+    if (addTitle.length === 0 || addText.length === 0) {
       return;
     }
-    modalDispatch(commonActions.setModalActive());
+    dispatch(commonActions.setModalActive());
+    // dispatch(addCardActions.enteredTitle(addTitle));
+    // dispatch(addCardActions.enteredContent(addText));
+
     onAddCard(enteredTitle, enteredContent);
+    // dispatch(addCardActions.enteredTitleEmpty());
+    // dispatch(addCardActions.enteredContentEmpty());
     setEnteredTitle("");
     setEnteredContent("");
   };
   const titleChangeHandler = (event: any) => {
+    // dispatch(addCardActions.enteredTitle(event.target.value));
     setEnteredTitle(event.target.value);
   };
   const contentChangeHandler = (event: any) => {
+    // dispatch(addCardActions.enteredContent(event.target.value));
     setEnteredContent(event.target.value);
   };
   const enterCardHandler = async ({ taskTitle, taskText }: any) => {
@@ -68,7 +78,7 @@ const Modal = (props: ModalProps) => {
   return (
     <div
       className={modalSelector ? "modal active" : "modal"}
-      onClick={() => modalDispatch(commonActions.setModalActive())}
+      onClick={() => dispatch(commonActions.setModalActive())}
     >
       <div
         className={modalSelector ? "modal__content active" : "modal__content"}

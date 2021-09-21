@@ -3,7 +3,6 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import { v4 as uuidv4 } from "uuid";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
-
 import Header from "./components/Header/Header";
 import Cards from "./components/Card/Cards";
 import initialData from "./state/card-data";
@@ -17,17 +16,11 @@ import { commonActions } from "./store/slice/common";
 
 const App = () => {
   const modalSelector = useAppSelector((state) => state.common.isModalActive);
+  const tabSelector = useAppSelector((state) => state.tab.activeTab);
   const dispatch = useAppDispatch();
 
   const state = [...initialData];
   const [cardList, setCardList] = useState(state);
-
-  // const [editCardMode, setEditCardMode] = useState(false);
-  const [editCard, setEditCard] = useState(false);
-  const [activeCancelBtn, setActiveCancelBtn] = useState(false);
-  const [saveCard, setSaveCard] = useState(false);
-  const [isCanceled, setIsCanceled] = useState(false);
-  const [activeTab, setActiveTab] = useState(0);
 
   const { isLoading, error, sendRequest: fetchTasks } = useHttp();
   useEffect(() => {
@@ -72,47 +65,32 @@ const App = () => {
         return obj;
       })
     );
-    setEditCard(false);
-    setSaveCard(false);
+    dispatch(commonActions.setEditCard());
+    dispatch(commonActions.setSaveCard());
   };
   const cancelHandler = () => {
-    setIsCanceled(true);
-    dispatch(commonActions.setEditCardMode())
-    // setEditCardMode(false);
-    setActiveCancelBtn(false);
+    dispatch(commonActions.isCanceled());
+    dispatch(commonActions.setEditCardMode());
+    dispatch(commonActions.setCancelBtn());
   };
   const exitHandler = () => {
-    setIsCanceled(false);
-    dispatch(commonActions.setEditCardMode())
-    // setEditCardMode(false);
+    dispatch(commonActions.setIsCanceled());
+    dispatch(commonActions.setEditCardMode());
   };
-
   let content = <p>Found no cards.</p>;
-
-  if (error) {
-    content = <p className="error">{error}</p>;
-  }
-
-  if (isLoading) {
-    content = <p>Loading...</p>;
-  }
-
+  if (error) content = <p className="error">{error}</p>;
+  if (isLoading) content = <p>Loading...</p>;
   if (cardList.length > 0) {
     content = (
       <div className="app-content">
-        {activeTab === 0 &&
+        {tabSelector === 0 &&
           cardList.map((data) => (
             <Cards
-              isCanceled={isCanceled}
               key={data.id}
               id={data.id}
               title={data.title}
               text={data.text}
               onDeleteCard={deleteCardHandler}
-              editCard={editCard}
-              setEditCard={() => setEditCard(true)}
-              saveCard={saveCard}
-              setSaveCard={setSaveCard}
               onSaveCard={saveCardHandler}
               loading={isLoading}
               error={error}
@@ -131,44 +109,23 @@ const App = () => {
           <MainPage />
         </Route>
         <Route path="/cards" exact>
-          <Header
-            activeCancel={activeCancelBtn}
-            cancelHandler={cancelHandler}
-            exitHandler={exitHandler}
-          />
+          <Header cancelHandler={cancelHandler} exitHandler={exitHandler} />
           <section className="container">
             <TemporaryDrawer />
-            <CardTabs
-              cardList={cardList}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
+            <CardTabs cardList={cardList} />
             {content}
           </section>
         </Route>
         <Route exact path="/cards/:cardId">
-          <Header
-            activeCancel={activeCancelBtn}
-            cancelHandler={cancelHandler}
-            exitHandler={exitHandler}
-          />
+          <Header cancelHandler={cancelHandler} exitHandler={exitHandler} />
           <section className="container">
             <TemporaryDrawer />
-            <CardTabs
-              cardList={cardList}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
+            <CardTabs cardList={cardList} />
             {content}
-            {cardList[activeTab] && (
+            {cardList[tabSelector] && (
               <CardDetail
-                {...cardList[activeTab]}
-                isCanceled={isCanceled}
+                {...cardList[tabSelector]}
                 onDeleteCard={deleteCardHandler}
-                editCard={editCard}
-                setEditCard={() => setEditCard(true)}
-                saveCard={saveCard}
-                setSaveCard={setSaveCard}
                 onSaveCard={saveCardHandler}
                 loading={isLoading}
                 error={error}

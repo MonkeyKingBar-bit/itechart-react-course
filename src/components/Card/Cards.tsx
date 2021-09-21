@@ -10,40 +10,37 @@ import useStyles from "../../styles/styles";
 import "./Card.css";
 import Input from "./Input/Input";
 import ButtonCard from "./Button/Button";
-import { useAppSelector } from '../../hooks/hooks';
+import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
+import { commonActions } from "../../store/slice/common";
 
 interface CardProps {
   id: string;
   title: string;
   text: string;
   onDeleteCard: any;
-  editCard: boolean;
-  setEditCard: any;
   onSaveCard: any;
-  saveCard: boolean;
-  setSaveCard: any;
-  isCanceled: boolean;
   loading: boolean;
   error: any;
 }
 
 const Cards: React.FC<CardProps> = (props: CardProps) => {
   const classes = useStyles();
+  const dispatch = useAppDispatch();
   const titleInputRef = useRef<any>(null);
   const contentInputRef = useRef<any>(null);
-  const editCardModeSelector = useAppSelector((state) => state.common.isEditCardMode);
+  const editCardModeSelector = useAppSelector(
+    (state) => state.common.isEditCardMode
+  );
+  const editCardSelector = useAppSelector((state) => state.common.isEditCard);
+  const saveCardSelector = useAppSelector((state) => state.common.isSaveCard);
+  const cancelSelector = useAppSelector((state) => state.common.isCanceled);
 
   const {
     id,
     title,
     text,
     onDeleteCard,
-    editCard,
-    setEditCard,
-    saveCard,
-    setSaveCard,
     onSaveCard,
-    isCanceled,
     loading,
     error,
   } = props;
@@ -53,14 +50,14 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
   const [oldEditContent, setOldEditContent] = useState(text);
 
   useEffect(() => {
-    if (isCanceled) {
+    if (cancelSelector) {
       setEditTitle(oldEditTitle);
       setEditContent(oldEditContent);
     } else {
       setOldEditTitle(editTitle);
       setOldEditContent(editContent);
     }
-  }, [isCanceled]);
+  }, [cancelSelector]);
 
   const isEditCard = (event: any) => {
     event.preventDefault();
@@ -68,7 +65,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     if (editTitle.trim().length === 0 || editContent.trim().length === 0) {
       return;
     }
-    setEditCard(false);
+    dispatch(commonActions.setEditCard());
   };
   const isDeleteCard = () => {
     onDeleteCard(id);
@@ -81,19 +78,14 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
   };
   const titleChangeHandler = (event: any) => {
     setEditTitle(event.target.value);
-    setSaveCard(true);
+    dispatch(commonActions.saveCard());
   };
   const contentChangeHandler = (event: any) => {
     setEditContent(event.target.value);
-    setSaveCard(true);
+    dispatch(commonActions.saveCard());
   };
-  if (error) {
-    <p>Try again</p>;
-  }
-
-  if (loading) {
-    <p>'Loading cards...'</p>;
-  }
+  if (error) <p>Try again</p>;
+  if (loading) <p>'Loading cards...'</p>;
   return (
     <main className={classes.cardMain}>
       <Container className={classes.cardGrid} maxWidth="md">
@@ -112,7 +104,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                     id={id}
                     value={editTitle}
                     onChange={titleChangeHandler}
-                    disabled={editCard ? "" : "disabled"}
+                    disabled={!editCardSelector ? "" : "disabled"}
                     cols={10}
                     rows={2}
                   />
@@ -121,14 +113,16 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                     id={id}
                     value={editContent}
                     onChange={contentChangeHandler}
-                    disabled={editCard ? "" : "disabled"}
+                    disabled={!editCardSelector ? "" : "disabled"}
                     cols={30}
                     rows={5}
                   />
                 </form>
               </CardContent>
               <CardActions
-                className={editCardModeSelector ? "editMode active" : "editMode"}
+                className={
+                  editCardModeSelector ? "editMode active" : "editMode"
+                }
               >
                 <ButtonCard
                   name="Edit"
@@ -138,7 +132,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                 />
                 <ButtonCard
                   name="Save"
-                  disabled={saveCard ? "" : "disabled"}
+                  disabled={saveCardSelector ? "" : "disabled"}
                   className="button"
                   onClick={isSaveCard}
                 />

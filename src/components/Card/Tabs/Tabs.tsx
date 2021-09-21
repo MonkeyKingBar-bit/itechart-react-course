@@ -15,9 +15,7 @@ const CardTabs = (props: cardTabs) => {
   };
 
   return (
-    <div
-      className="tab"
-    >
+    <div className="tab">
       {cardList.map(
         (
           n: {
@@ -32,7 +30,7 @@ const CardTabs = (props: cardTabs) => {
           },
           i: any
         ) => (
-          <Link to={`/cards/${n.id}`}>
+          <Link to={`/cards/${n.id}`} key={n.id}>
             <button
               className={`tablinks ${i === activeTab ? "active" : ""}`}
               onClick={openTab}

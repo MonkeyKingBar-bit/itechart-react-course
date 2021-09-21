@@ -9,7 +9,6 @@ const CardDetail = (props: any) => {
         id={props.id}
         title={props.title}
         text={props.text}
-        activeEdit={props.activeEdit}
         onDeleteCard={props.onDeleteCard}
         editCard={props.editCard}
         setEditCard={props.setEditCard}

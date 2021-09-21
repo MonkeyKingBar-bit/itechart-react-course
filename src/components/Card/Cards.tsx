@@ -10,12 +10,12 @@ import useStyles from "../../styles/styles";
 import "./Card.css";
 import Input from "./Input/Input";
 import ButtonCard from "./Button/Button";
+import { useAppSelector } from '../../hooks/hooks';
 
 interface CardProps {
   id: string;
   title: string;
   text: string;
-  activeEdit: boolean;
   onDeleteCard: any;
   editCard: boolean;
   setEditCard: any;
@@ -31,11 +31,12 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
   const classes = useStyles();
   const titleInputRef = useRef<any>(null);
   const contentInputRef = useRef<any>(null);
+  const editCardModeSelector = useAppSelector((state) => state.common.isEditCardMode);
+
   const {
     id,
     title,
     text,
-    activeEdit,
     onDeleteCard,
     editCard,
     setEditCard,
@@ -127,7 +128,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                 </form>
               </CardContent>
               <CardActions
-                className={activeEdit ? "editMode active" : "editMode"}
+                className={editCardModeSelector ? "editMode active" : "editMode"}
               >
                 <ButtonCard
                   name="Edit"

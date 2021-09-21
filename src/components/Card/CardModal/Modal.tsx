@@ -1,29 +1,32 @@
-import React, { useState } from 'react';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import useStyles from '../../../styles/styles';
-import './Modal.css';
-import useHttp from '../../../hooks/use-http';
+import React, { useState } from "react";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import useStyles from "../../../styles/styles";
+import "./Modal.css";
+import useHttp from "../../../hooks/use-http";
+import { useAppSelector, useAppDispatch } from "../../../hooks/hooks";
+
 import { v4 as uuidv4 } from "uuid";
+import { commonActions } from "../../../store/slice/common";
 
 interface ModalProps {
-  active: boolean;
-  setActive: any;
   onAddCard: any;
 }
 
 const Modal = (props: ModalProps) => {
-  const { active, setActive, onAddCard } = props;
+  const { onAddCard } = props;
   const classes = useStyles();
-  const [enteredTitle, setEnteredTitle] = useState('');
-  const [enteredContent, setEnteredContent] = useState('');
+  const modalSelector = useAppSelector((state) => state.common.isModalActive);
+  const modalDispatch = useAppDispatch();
+  const [enteredTitle, setEnteredTitle] = useState("");
+  const [enteredContent, setEnteredContent] = useState("");
   const { isLoading, error, sendRequest: sendTaskRequest } = useHttp();
 
-  const createCard = ({taskTitle, taskText, taskData}:any) => {
+  const createCard = ({ taskTitle, taskText }: any) => {
     const createdTask = { id: uuidv4(), title: taskTitle, text: taskText };
 
     onAddCard(createdTask);
@@ -31,13 +34,16 @@ const Modal = (props: ModalProps) => {
 
   const addCardHandler = (event: any) => {
     event.preventDefault();
-    if (enteredTitle.trim().length === 0 || enteredContent.trim().length === 0) {
+    if (
+      enteredTitle.trim().length === 0 ||
+      enteredContent.trim().length === 0
+    ) {
       return;
     }
-    setActive(false);
+    modalDispatch(commonActions.setModalActive());
     onAddCard(enteredTitle, enteredContent);
-    setEnteredTitle('');
-    setEnteredContent('');
+    setEnteredTitle("");
+    setEnteredContent("");
   };
   const titleChangeHandler = (event: any) => {
     setEnteredTitle(event.target.value);
@@ -45,13 +51,13 @@ const Modal = (props: ModalProps) => {
   const contentChangeHandler = (event: any) => {
     setEnteredContent(event.target.value);
   };
-  const enterCardHandler = async ({taskTitle, taskText}:any) => {
+  const enterCardHandler = async ({ taskTitle, taskText }: any) => {
     sendTaskRequest(
       {
-        url: 'https://jsonplaceholder.typicode.com/posts/',
-        method: 'POST',
+        url: "https://jsonplaceholder.typicode.com/posts/",
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: { title: taskTitle, text: taskText },
       },
@@ -61,11 +67,11 @@ const Modal = (props: ModalProps) => {
 
   return (
     <div
-      className={active ? 'modal active' : 'modal'}
-      onClick={() => setActive(false)}
+      className={modalSelector ? "modal active" : "modal"}
+      onClick={() => modalDispatch(commonActions.setModalActive())}
     >
       <div
-        className={active ? 'modal__content active' : 'modal__content'}
+        className={modalSelector ? "modal__content active" : "modal__content"}
         onClick={(event) => event.stopPropagation()}
       >
         <Typography
@@ -105,7 +111,9 @@ const Modal = (props: ModalProps) => {
             </form>
           </CardContent>
           <CardActions className={classes.buttonForm}>
-            <Button size="large" onClick={addCardHandler}>{isLoading ? 'Sending' : 'Create card'}</Button>
+            <Button size="large" onClick={addCardHandler}>
+              {isLoading ? "Sending" : "Create card"}
+            </Button>
           </CardActions>
         </Card>
         {error && <p>{error}</p>}

@@ -10,25 +10,19 @@ import EditIcon from "@material-ui/icons/Edit";
 import CancelIcon from "@material-ui/icons/Cancel";
 import Button from "@material-ui/core/Button";
 import useStyles from "../../styles/styles";
+import { commonActions } from "../../store/slice/common";
+import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
 
 interface HeaderProps {
-  activeEdit: boolean;
-  setActive: any;
-  setActiveEdit: any;
   activeCancel: boolean;
   cancelHandler: any;
   exitHandler: () => void;
 }
 
 const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
-  const {
-    setActive,
-    setActiveEdit,
-    activeCancel,
-    activeEdit,
-    cancelHandler,
-    exitHandler,
-  } = props;
+  const isEditCardMode = useAppSelector((state) => state.common.isEditCardMode);
+  const dispatch = useAppDispatch();
+  const { activeCancel, cancelHandler, exitHandler } = props;
   const classes = useStyles();
   return (
     <header>
@@ -50,7 +44,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
               color="inherit"
               aria-label="add"
               size="small"
-              onClick={setActive}
+              onClick={() => dispatch(commonActions.modalActive())}
             >
               <AddIcon />
             </Fab>
@@ -59,11 +53,11 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
               color="inherit"
               aria-label="edit"
               size="small"
-              onClick={setActiveEdit}
+              onClick={() => dispatch(commonActions.editCardMode())}
             >
               <EditIcon />
             </Fab>
-            {activeEdit && (
+            {isEditCardMode && (
               <Button
                 variant="contained"
                 color="secondary"
@@ -74,7 +68,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
                 Cancel
               </Button>
             )}
-            {activeEdit && (
+            {isEditCardMode && (
               <Button
                 variant="contained"
                 color="secondary"

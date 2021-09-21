@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import { v4 as uuidv4 } from "uuid";
+import { useAppDispatch, useAppSelector } from "./hooks/hooks";
+
 import Header from "./components/Header/Header";
 import Cards from "./components/Card/Cards";
 import initialData from "./state/card-data";
@@ -11,12 +13,16 @@ import MainPage from "./components/MainPage/MainPage";
 import TemporaryDrawer from "./components/Card/Sidebar/Sidebar";
 import CardTabs from "./components/Card/Tabs/Tabs";
 import CardDetail from "./components/Card/CardsDetail/CardsDetail";
+import { commonActions } from "./store/slice/common";
 
 const App = () => {
+  const modalSelector = useAppSelector((state) => state.common.isModalActive);
+  const dispatch = useAppDispatch();
+
   const state = [...initialData];
   const [cardList, setCardList] = useState(state);
-  const [modalActive, setModalActive] = useState(false);
-  const [editCardMode, setEditCardMode] = useState(false);
+
+  // const [editCardMode, setEditCardMode] = useState(false);
   const [editCard, setEditCard] = useState(false);
   const [activeCancelBtn, setActiveCancelBtn] = useState(false);
   const [saveCard, setSaveCard] = useState(false);
@@ -71,12 +77,14 @@ const App = () => {
   };
   const cancelHandler = () => {
     setIsCanceled(true);
-    setEditCardMode(false);
+    dispatch(commonActions.setEditCardMode())
+    // setEditCardMode(false);
     setActiveCancelBtn(false);
   };
   const exitHandler = () => {
     setIsCanceled(false);
-    setEditCardMode(false);
+    dispatch(commonActions.setEditCardMode())
+    // setEditCardMode(false);
   };
 
   let content = <p>Found no cards.</p>;
@@ -100,7 +108,6 @@ const App = () => {
               id={data.id}
               title={data.title}
               text={data.text}
-              activeEdit={editCardMode}
               onDeleteCard={deleteCardHandler}
               editCard={editCard}
               setEditCard={() => setEditCard(true)}
@@ -125,9 +132,6 @@ const App = () => {
         </Route>
         <Route path="/cards" exact>
           <Header
-            setActive={() => setModalActive(true)}
-            activeEdit={editCardMode}
-            setActiveEdit={() => setEditCardMode(true)}
             activeCancel={activeCancelBtn}
             cancelHandler={cancelHandler}
             exitHandler={exitHandler}
@@ -144,9 +148,6 @@ const App = () => {
         </Route>
         <Route exact path="/cards/:cardId">
           <Header
-            setActive={() => setModalActive(true)}
-            activeEdit={editCardMode}
-            setActiveEdit={() => setEditCardMode(true)}
             activeCancel={activeCancelBtn}
             cancelHandler={cancelHandler}
             exitHandler={exitHandler}
@@ -163,7 +164,6 @@ const App = () => {
               <CardDetail
                 {...cardList[activeTab]}
                 isCanceled={isCanceled}
-                activeEdit={editCardMode}
                 onDeleteCard={deleteCardHandler}
                 editCard={editCard}
                 setEditCard={() => setEditCard(true)}
@@ -177,11 +177,7 @@ const App = () => {
           </section>
         </Route>
       </Switch>
-      <Modal
-        active={modalActive}
-        setActive={setModalActive}
-        onAddCard={addCardHandler}
-      />
+      {modalSelector && <Modal onAddCard={addCardHandler} />}
     </div>
   );
 };

@@ -117,7 +117,7 @@ const App = () => {
           </section>
         </Route>
         <Route exact path="/cards/:cardId">
-          <Header cancelHandler={cancelHandler} exitHandler={exitHandler} />
+        <Header cancelHandler={cancelHandler} exitHandler={exitHandler} />
           <section className="container">
             <TemporaryDrawer />
             <CardTabs cardList={cardList} />

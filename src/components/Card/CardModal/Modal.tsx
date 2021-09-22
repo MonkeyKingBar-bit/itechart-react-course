@@ -22,8 +22,8 @@ const Modal = (props: ModalProps) => {
   const { onAddCard } = props;
   const classes = useStyles();
   const modalSelector = useAppSelector((state) => state.common.isModalActive);
-  const addTitle = useAppSelector((state) => state.addCard.title);
-  const addText = useAppSelector((state) => state.addCard.text);
+  // const addTitle = useAppSelector((state) => state.addCard.title);
+  // const addText = useAppSelector((state) => state.addCard.text);
 
   const dispatch = useAppDispatch();
 
@@ -40,7 +40,7 @@ const Modal = (props: ModalProps) => {
 
   const addCardHandler = (event: any) => {
     event.preventDefault();
-    if (addTitle.length === 0 || addText.length === 0) {
+    if (enteredTitle.length === 0 || enteredContent.length === 0) {
       return;
     }
     dispatch(commonActions.setModalActive());

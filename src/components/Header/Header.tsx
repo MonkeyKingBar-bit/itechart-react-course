@@ -1,4 +1,6 @@
-import React from "react";
+import { commonActions } from "../../store/slice/common";
+import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
+
 import AppBar from "@material-ui/core/AppBar";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -10,23 +12,26 @@ import EditIcon from "@material-ui/icons/Edit";
 import CancelIcon from "@material-ui/icons/Cancel";
 import Button from "@material-ui/core/Button";
 import useStyles from "../../styles/styles";
-import { commonActions } from "../../store/slice/common";
-import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
 
-interface HeaderProps {
-  cancelHandler: any;
-  exitHandler: () => void;
-}
-
-const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
+const Header = () => {
+  const classes = useStyles();
+  const dispatch = useAppDispatch();
   const isEditCardMode = useAppSelector((state) => state.common.isEditCardMode);
   const isActiveCancelBtn = useAppSelector(
     (state) => state.common.isActiveCancelBtn
   );
 
-  const dispatch = useAppDispatch();
-  const {  cancelHandler, exitHandler } = props;
-  const classes = useStyles();
+  const cancelHandler = () => {
+    dispatch(commonActions.isCanceled());
+    dispatch(commonActions.setEditCardMode());
+    dispatch(commonActions.setCancelBtn());
+  };
+
+  const exitHandler = () => {
+    dispatch(commonActions.setIsCanceled());
+    dispatch(commonActions.setEditCardMode());
+  };
+
   return (
     <header>
       <CssBaseline />

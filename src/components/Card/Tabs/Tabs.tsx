@@ -1,15 +1,12 @@
 import { Link } from "react-router-dom";
 import { ReactChild, ReactFragment, ReactPortal } from "react";
+
 import { useAppDispatch, useAppSelector } from "../../.././hooks/hooks";
 import { tabActions } from "../../../store/slice/tab";
+
 import "./Tabs.css";
 
-// interface cardTabs {
-//   cardList: any;
-// }
-
 const CardTabs = () => {
-  // const { cardList } = props;
   const dispatch = useAppDispatch();
   const cardsData = useAppSelector((state) => state.cardsData.cards);
   const tabSelector = useAppSelector((state) => state.tab.activeTab);

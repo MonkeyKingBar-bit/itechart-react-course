@@ -1,5 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from "react";
+
+import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
+import { commonActions } from "../../store/slice/common";
+import { cardsDataActions } from "../../store/slice/cardsData";
+
+import Input from "./Input/Input";
+import ButtonCard from "./Button/Button";
+
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -8,12 +16,6 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import useStyles from "../../styles/styles";
 import "./Card.css";
-import Input from "./Input/Input";
-import ButtonCard from "./Button/Button";
-import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
-import { commonActions } from "../../store/slice/common";
-import { cardsDataActions } from "../../store/slice/cardsData";
-
 interface CardProps {
   id: string;
   title: string;
@@ -23,10 +25,13 @@ interface CardProps {
 }
 
 const Cards: React.FC<CardProps> = (props: CardProps) => {
+  const { id, title, text, loading, error } = props;
+
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const titleInputRef = useRef<any>(null);
   const contentInputRef = useRef<any>(null);
+
   const editCardModeSelector = useAppSelector(
     (state) => state.common.isEditCardMode
   );
@@ -34,7 +39,6 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
   const saveCardSelector = useAppSelector((state) => state.common.isSaveCard);
   const cancelSelector = useAppSelector((state) => state.common.isCanceled);
 
-  const { id, title, text, loading, error } = props;
   const [editTitle, setEditTitle] = useState(title);
   const [editContent, setEditContent] = useState(text);
   const [oldEditTitle, setOldEditTitle] = useState(title);
@@ -58,6 +62,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     }
     dispatch(commonActions.editCard());
   };
+
   const isSaveCard = () => {
     if (editTitle.trim().length === 0 || editContent.trim().length === 0) {
       return;
@@ -72,16 +77,20 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     dispatch(commonActions.setEditCard());
     dispatch(commonActions.setSaveCard());
   };
+
   const titleChangeHandler = (event: any) => {
     setEditTitle(event.target.value);
     dispatch(commonActions.saveCard());
   };
+
   const contentChangeHandler = (event: any) => {
     setEditContent(event.target.value);
     dispatch(commonActions.saveCard());
   };
+
   if (error) <p>Try again</p>;
   if (loading) <p>'Loading cards...'</p>;
+
   return (
     <main className={classes.cardMain}>
       <Container className={classes.cardGrid} maxWidth="md">

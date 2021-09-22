@@ -1,4 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
+
+import { v4 as uuidv4 } from "uuid";
+import useHttp from "../../../hooks/use-http";
+import { useAppSelector, useAppDispatch } from "../../../hooks/hooks";
+import { commonActions } from "../../../store/slice/common";
+import { cardsDataActions } from "../../../store/slice/cardsData";
+
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -7,30 +14,18 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import useStyles from "../../../styles/styles";
 import "./Modal.css";
-import useHttp from "../../../hooks/use-http";
-import { useAppSelector, useAppDispatch } from "../../../hooks/hooks";
-
-import { v4 as uuidv4 } from "uuid";
-import { commonActions } from "../../../store/slice/common";
-import { cardsDataActions } from "../../../store/slice/cardsData";
 
 const Modal = () => {
   const classes = useStyles();
-  const modalSelector = useAppSelector((state) => state.common.isModalActive);
-  // const addTitle = useAppSelector((state) => state.addCard.title);
-  // const addText = useAppSelector((state) => state.addCard.text);
-
+  const { isLoading, error, sendRequest: sendTaskRequest } = useHttp();
   const dispatch = useAppDispatch();
-
+  const modalSelector = useAppSelector((state) => state.common.isModalActive);
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredContent, setEnteredContent] = useState("");
-
-  const { isLoading, error, sendRequest: sendTaskRequest } = useHttp();
 
   const createCard = ({ taskTitle, taskText }: any) => {
     const createdTask = { id: uuidv4(), title: taskTitle, text: taskText };
     dispatch(cardsDataActions.addCard(createdTask));
-    // onAddCard(createdTask);
   };
 
   const addCardHandler = (event: any) => {
@@ -39,8 +34,6 @@ const Modal = () => {
       return;
     }
     dispatch(commonActions.setModalActive());
-    // dispatch(addCardActions.enteredTitle(addTitle));
-    // dispatch(addCardActions.enteredContent(addText));
     dispatch(
       cardsDataActions.addCard({
         id: uuidv4(),
@@ -48,20 +41,18 @@ const Modal = () => {
         text: enteredContent,
       })
     );
-    // onAddCard(enteredTitle, enteredContent);
-    // dispatch(addCardActions.enteredTitleEmpty());
-    // dispatch(addCardActions.enteredContentEmpty());
     setEnteredTitle("");
     setEnteredContent("");
   };
+
   const titleChangeHandler = (event: any) => {
-    // dispatch(addCardActions.enteredTitle(event.target.value));
     setEnteredTitle(event.target.value);
   };
+
   const contentChangeHandler = (event: any) => {
-    // dispatch(addCardActions.enteredContent(event.target.value));
     setEnteredContent(event.target.value);
   };
+
   const enterCardHandler = async ({ taskTitle, taskText }: any) => {
     sendTaskRequest(
       {

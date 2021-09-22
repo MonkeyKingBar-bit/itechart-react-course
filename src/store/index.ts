@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+
 import cardsDataReducer from "./slice/cardsData";
 import commonReducer from "./slice/common";
 import tabReducer from "./slice//tab";

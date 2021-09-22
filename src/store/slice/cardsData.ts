@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import initialData from "../../state/card-data";
 
 const cardsDataSlice = createSlice({
@@ -22,7 +23,7 @@ const cardsDataSlice = createSlice({
         (elem) => elem.id !== action.payload.id
       );
       return {
-          ...state,
+        ...state,
         cards: [...cardsData],
       };
     },

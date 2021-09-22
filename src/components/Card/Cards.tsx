@@ -12,13 +12,12 @@ import Input from "./Input/Input";
 import ButtonCard from "./Button/Button";
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
 import { commonActions } from "../../store/slice/common";
+import { cardsDataActions } from "../../store/slice/cardsData";
 
 interface CardProps {
   id: string;
   title: string;
   text: string;
-  onDeleteCard: any;
-  onSaveCard: any;
   loading: boolean;
   error: any;
 }
@@ -35,15 +34,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
   const saveCardSelector = useAppSelector((state) => state.common.isSaveCard);
   const cancelSelector = useAppSelector((state) => state.common.isCanceled);
 
-  const {
-    id,
-    title,
-    text,
-    onDeleteCard,
-    onSaveCard,
-    loading,
-    error,
-  } = props;
+  const { id, title, text, loading, error } = props;
   const [editTitle, setEditTitle] = useState(title);
   const [editContent, setEditContent] = useState(text);
   const [oldEditTitle, setOldEditTitle] = useState(title);
@@ -65,16 +56,21 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     if (editTitle.trim().length === 0 || editContent.trim().length === 0) {
       return;
     }
-    dispatch(commonActions.setEditCard());
-  };
-  const isDeleteCard = () => {
-    onDeleteCard(id);
+    dispatch(commonActions.editCard());
   };
   const isSaveCard = () => {
     if (editTitle.trim().length === 0 || editContent.trim().length === 0) {
       return;
     }
-    onSaveCard(id, editTitle, editContent);
+    dispatch(
+      cardsDataActions.saveCard({
+        id: id,
+        title: editTitle,
+        text: editContent,
+      })
+    );
+    dispatch(commonActions.setEditCard());
+    dispatch(commonActions.setSaveCard());
   };
   const titleChangeHandler = (event: any) => {
     setEditTitle(event.target.value);
@@ -104,7 +100,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                     id={id}
                     value={editTitle}
                     onChange={titleChangeHandler}
-                    disabled={!editCardSelector ? "" : "disabled"}
+                    disabled={editCardSelector ? "" : "disabled"}
                     cols={10}
                     rows={2}
                   />
@@ -113,7 +109,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                     id={id}
                     value={editContent}
                     onChange={contentChangeHandler}
-                    disabled={!editCardSelector ? "" : "disabled"}
+                    disabled={editCardSelector ? "" : "disabled"}
                     cols={30}
                     rows={5}
                   />
@@ -140,7 +136,9 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                   name="Delete"
                   disabled=""
                   className="button"
-                  onClick={isDeleteCard}
+                  onClick={() =>
+                    dispatch(cardsDataActions.deleteCard({ id: id }))
+                  }
                 />
               </CardActions>
             </Card>

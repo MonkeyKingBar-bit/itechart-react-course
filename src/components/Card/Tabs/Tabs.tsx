@@ -4,18 +4,19 @@ import { useAppDispatch, useAppSelector } from "../../.././hooks/hooks";
 import { tabActions } from "../../../store/slice/tab";
 import "./Tabs.css";
 
-interface cardTabs {
-  cardList: any;
-}
+// interface cardTabs {
+//   cardList: any;
+// }
 
-const CardTabs = (props: cardTabs) => {
-  const { cardList } = props;
+const CardTabs = () => {
+  // const { cardList } = props;
   const dispatch = useAppDispatch();
+  const cardsData = useAppSelector((state) => state.cardsData.cards);
   const tabSelector = useAppSelector((state) => state.tab.activeTab);
 
   return (
     <div className="tab">
-      {cardList.map(
+      {cardsData.map(
         (
           n: {
             id: any;

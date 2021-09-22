@@ -12,14 +12,9 @@ import { useAppSelector, useAppDispatch } from "../../../hooks/hooks";
 
 import { v4 as uuidv4 } from "uuid";
 import { commonActions } from "../../../store/slice/common";
-// import { addCardActions } from "../../../store/slice/addCard";
+import { cardsDataActions } from "../../../store/slice/cardsData";
 
-interface ModalProps {
-  onAddCard: any;
-}
-
-const Modal = (props: ModalProps) => {
-  const { onAddCard } = props;
+const Modal = () => {
   const classes = useStyles();
   const modalSelector = useAppSelector((state) => state.common.isModalActive);
   // const addTitle = useAppSelector((state) => state.addCard.title);
@@ -34,8 +29,8 @@ const Modal = (props: ModalProps) => {
 
   const createCard = ({ taskTitle, taskText }: any) => {
     const createdTask = { id: uuidv4(), title: taskTitle, text: taskText };
-    // dispatch(addCardActions.addCard(createdTask));
-    onAddCard(createdTask);
+    dispatch(cardsDataActions.addCard(createdTask));
+    // onAddCard(createdTask);
   };
 
   const addCardHandler = (event: any) => {
@@ -46,8 +41,14 @@ const Modal = (props: ModalProps) => {
     dispatch(commonActions.setModalActive());
     // dispatch(addCardActions.enteredTitle(addTitle));
     // dispatch(addCardActions.enteredContent(addText));
-
-    onAddCard(enteredTitle, enteredContent);
+    dispatch(
+      cardsDataActions.addCard({
+        id: uuidv4(),
+        title: enteredTitle,
+        text: enteredContent,
+      })
+    );
+    // onAddCard(enteredTitle, enteredContent);
     // dispatch(addCardActions.enteredTitleEmpty());
     // dispatch(addCardActions.enteredContentEmpty());
     setEnteredTitle("");

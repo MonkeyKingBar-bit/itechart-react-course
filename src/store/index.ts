@@ -1,10 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
+import cardsDataReducer from "./slice/cardsData";
 import commonReducer from "./slice/common";
-import addCardReducer from "./slice/addCard";
 import tabReducer from "./slice//tab";
 
 const store = configureStore({
-  reducer: { common: commonReducer, addCard: addCardReducer, tab: tabReducer },
+  reducer: {
+    cardsData: cardsDataReducer,
+    common: commonReducer,
+    tab: tabReducer,
+  },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

@@ -8,8 +8,6 @@ const CardDetail = (props: any) => {
         id={props.id}
         title={props.title}
         text={props.text}
-        onDeleteCard={props.onDeleteCard}
-        onSaveCard={props.onSaveCard}
         loading={props.loading}
         error={props.error}
       />

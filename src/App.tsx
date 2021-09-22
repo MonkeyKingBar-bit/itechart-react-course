@@ -13,14 +13,17 @@ import TemporaryDrawer from "./components/Card/Sidebar/Sidebar";
 import CardTabs from "./components/Card/Tabs/Tabs";
 import CardDetail from "./components/Card/CardsDetail/CardsDetail";
 import { commonActions } from "./store/slice/common";
+// import { addCardActions } from "./store/slice/addCard";
+import { cardsDataActions } from "./store/slice/cardsData";
 
 const App = () => {
+  const cardsData = useAppSelector((state) => state.cardsData.cards);
   const modalSelector = useAppSelector((state) => state.common.isModalActive);
   const tabSelector = useAppSelector((state) => state.tab.activeTab);
   const dispatch = useAppDispatch();
 
-  const state = [...initialData];
-  const [cardList, setCardList] = useState(state);
+  // const state = [...initialData];
+  // const [cardList, setCardList] = useState(state);
 
   const { isLoading, error, sendRequest: fetchTasks } = useHttp();
   useEffect(() => {
@@ -33,41 +36,14 @@ const App = () => {
           text: tasksObj[taskKey].body,
         });
       }
-      setCardList(loadedTasks);
+      dispatch(cardsDataActions.setCardsData(loadedTasks));
+      // setCardList(loadedTasks);
     };
     fetchTasks(
       { url: "https://jsonplaceholder.typicode.com/posts/" },
       transformTasks
     );
-  }, [fetchTasks]);
-
-  const addCardHandler = (enteredTitle: string, enteredContent: string) => {
-    setCardList((prevCardList) => [
-      ...prevCardList,
-      { id: uuidv4(), title: enteredTitle, text: enteredContent },
-    ]);
-  };
-  const deleteCardHandler = (id: string) => {
-    setCardList((prevCardList) => [
-      ...prevCardList.filter((elem) => elem.id !== id),
-    ]);
-  };
-  const saveCardHandler = (
-    id: string,
-    enteredTitle: string,
-    enteredContent: string
-  ) => {
-    setCardList(
-      cardList.map((obj) => {
-        if (obj.id === id) {
-          return { ...obj, title: enteredTitle, text: enteredContent };
-        }
-        return obj;
-      })
-    );
-    dispatch(commonActions.setEditCard());
-    dispatch(commonActions.setSaveCard());
-  };
+  }, [fetchTasks, dispatch]);
   const cancelHandler = () => {
     dispatch(commonActions.isCanceled());
     dispatch(commonActions.setEditCardMode());
@@ -80,18 +56,16 @@ const App = () => {
   let content = <p>Found no cards.</p>;
   if (error) content = <p className="error">{error}</p>;
   if (isLoading) content = <p>Loading...</p>;
-  if (cardList.length > 0) {
+  if (cardsData.length > 0) {
     content = (
       <div className="app-content">
         {tabSelector === 0 &&
-          cardList.map((data) => (
+          cardsData.map((data) => (
             <Cards
               key={data.id}
               id={data.id}
               title={data.title}
               text={data.text}
-              onDeleteCard={deleteCardHandler}
-              onSaveCard={saveCardHandler}
               loading={isLoading}
               error={error}
             />
@@ -112,21 +86,19 @@ const App = () => {
           <Header cancelHandler={cancelHandler} exitHandler={exitHandler} />
           <section className="container">
             <TemporaryDrawer />
-            <CardTabs cardList={cardList} />
+            <CardTabs />
             {content}
           </section>
         </Route>
         <Route exact path="/cards/:cardId">
-        <Header cancelHandler={cancelHandler} exitHandler={exitHandler} />
+          <Header cancelHandler={cancelHandler} exitHandler={exitHandler} />
           <section className="container">
             <TemporaryDrawer />
-            <CardTabs cardList={cardList} />
+            <CardTabs />
             {content}
-            {cardList[tabSelector] && (
+            {cardsData[tabSelector] && (
               <CardDetail
-                {...cardList[tabSelector]}
-                onDeleteCard={deleteCardHandler}
-                onSaveCard={saveCardHandler}
+                {...cardsData[tabSelector]}
                 loading={isLoading}
                 error={error}
               />
@@ -134,7 +106,7 @@ const App = () => {
           </section>
         </Route>
       </Switch>
-      {modalSelector && <Modal onAddCard={addCardHandler} />}
+      {modalSelector && <Modal/>}
     </div>
   );
 };

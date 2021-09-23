@@ -1,0 +1,44 @@
+.tab {
+  overflow: scroll;
+  overflow-x: hidden;
+  border: none;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  height: 20vh;
+  align-items: center;
+  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(1, 80px);
+  gap: 5px;
+}
+.tab::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+.tab a {
+  display: grid;
+}
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+  transition-duration: 0.4s;
+}
+.tab button:hover {
+  background-color: #f50057;
+  color: white;
+}
+.tab button.active {
+  background-color: #f50057;
+}
+.tabcontent {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}

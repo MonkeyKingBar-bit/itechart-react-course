@@ -1,5 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from "react";
+
+import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
+import { commonActions } from "../../store/slice/common";
+import { cardsDataActions } from "../../store/slice/cardsData";
+
+import Input from "./Input/Input";
+import ButtonCard from "./Button/Button";
+
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -8,58 +16,43 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import useStyles from "../../styles/styles";
 import "./Card.css";
-import Input from "./Input/Input";
-import ButtonCard from "./Button/Button";
-
 interface CardProps {
   id: string;
   title: string;
   text: string;
-  activeEdit: boolean;
-  onDeleteCard: any;
-  editCard: boolean;
-  setEditCard: any;
-  onSaveCard: any;
-  saveCard: boolean;
-  setSaveCard: any;
-  isCanceled: boolean;
   loading: boolean;
   error: any;
 }
 
 const Cards: React.FC<CardProps> = (props: CardProps) => {
+  const { id, title, text, loading, error } = props;
+
   const classes = useStyles();
+  const dispatch = useAppDispatch();
   const titleInputRef = useRef<any>(null);
   const contentInputRef = useRef<any>(null);
-  const {
-    id,
-    title,
-    text,
-    activeEdit,
-    onDeleteCard,
-    editCard,
-    setEditCard,
-    saveCard,
-    setSaveCard,
-    onSaveCard,
-    isCanceled,
-    loading,
-    error,
-  } = props;
+
+  const editCardModeSelector = useAppSelector(
+    (state) => state.common.isEditCardMode
+  );
+  const editCardSelector = useAppSelector((state) => state.common.isEditCard);
+  const saveCardSelector = useAppSelector((state) => state.common.isSaveCard);
+  const cancelSelector = useAppSelector((state) => state.common.isCanceled);
+
   const [editTitle, setEditTitle] = useState(title);
   const [editContent, setEditContent] = useState(text);
   const [oldEditTitle, setOldEditTitle] = useState(title);
   const [oldEditContent, setOldEditContent] = useState(text);
 
   useEffect(() => {
-    if (isCanceled) {
+    if (cancelSelector) {
       setEditTitle(oldEditTitle);
       setEditContent(oldEditContent);
     } else {
       setOldEditTitle(editTitle);
       setOldEditContent(editContent);
     }
-  }, [isCanceled]);
+  }, [cancelSelector]);
 
   const isEditCard = (event: any) => {
     event.preventDefault();
@@ -67,35 +60,39 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     if (editTitle.trim().length === 0 || editContent.trim().length === 0) {
       return;
     }
-    setEditCard(false);
+    dispatch(commonActions.editCard());
   };
-  const isDeleteCard = () => {
-    onDeleteCard(id);
-  };
+
   const isSaveCard = () => {
     if (editTitle.trim().length === 0 || editContent.trim().length === 0) {
       return;
     }
-    onSaveCard(id, editTitle, editContent);
+    dispatch(
+      cardsDataActions.saveCard({
+        id: id,
+        title: editTitle,
+        text: editContent,
+      })
+    );
+    dispatch(commonActions.setEditCard());
+    dispatch(commonActions.setSaveCard());
   };
+
   const titleChangeHandler = (event: any) => {
     setEditTitle(event.target.value);
-    setSaveCard(true);
+    dispatch(commonActions.saveCard());
   };
+
   const contentChangeHandler = (event: any) => {
     setEditContent(event.target.value);
-    setSaveCard(true);
+    dispatch(commonActions.saveCard());
   };
-  if (error) {
-    <p>Try again</p>;
-  }
 
-  if (loading) {
-    <p>'Loading cards...'</p>;
-  }
+  if (error) <p>Try again</p>;
+  if (loading) <p>'Loading cards...'</p>;
+
   return (
-    <main>
-      
+    <main className={classes.cardMain}>
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={12}>
@@ -112,7 +109,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                     id={id}
                     value={editTitle}
                     onChange={titleChangeHandler}
-                    disabled={editCard ? "" : "disabled"}
+                    disabled={editCardSelector ? "" : "disabled"}
                     cols={10}
                     rows={2}
                   />
@@ -121,14 +118,16 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                     id={id}
                     value={editContent}
                     onChange={contentChangeHandler}
-                    disabled={editCard ? "" : "disabled"}
+                    disabled={editCardSelector ? "" : "disabled"}
                     cols={30}
                     rows={5}
                   />
                 </form>
               </CardContent>
               <CardActions
-                className={activeEdit ? "editMode active" : "editMode"}
+                className={
+                  editCardModeSelector ? "editMode active" : "editMode"
+                }
               >
                 <ButtonCard
                   name="Edit"
@@ -138,7 +137,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                 />
                 <ButtonCard
                   name="Save"
-                  disabled={saveCard ? "" : "disabled"}
+                  disabled={saveCardSelector ? "" : "disabled"}
                   className="button"
                   onClick={isSaveCard}
                 />
@@ -146,7 +145,9 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                   name="Delete"
                   disabled=""
                   className="button"
-                  onClick={isDeleteCard}
+                  onClick={() =>
+                    dispatch(cardsDataActions.deleteCard({ id: id }))
+                  }
                 />
               </CardActions>
             </Card>

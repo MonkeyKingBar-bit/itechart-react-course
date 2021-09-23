@@ -1,4 +1,6 @@
-import React from "react";
+import { commonActions } from "../../store/slice/common";
+import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
+
 import AppBar from "@material-ui/core/AppBar";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,25 +13,25 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import Button from "@material-ui/core/Button";
 import useStyles from "../../styles/styles";
 
-interface HeaderProps {
-  activeEdit: boolean;
-  setActive: any;
-  setActiveEdit: any;
-  activeCancel: boolean;
-  cancelHandler: any;
-  exitHandler: () => void;
-}
-
-const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
-  const {
-    setActive,
-    setActiveEdit,
-    activeCancel,
-    activeEdit,
-    cancelHandler,
-    exitHandler,
-  } = props;
+const Header = () => {
   const classes = useStyles();
+  const dispatch = useAppDispatch();
+  const isEditCardMode = useAppSelector((state) => state.common.isEditCardMode);
+  const isActiveCancelBtn = useAppSelector(
+    (state) => state.common.isActiveCancelBtn
+  );
+
+  const cancelHandler = () => {
+    dispatch(commonActions.isCanceled());
+    dispatch(commonActions.setEditCardMode());
+    dispatch(commonActions.setCancelBtn());
+  };
+
+  const exitHandler = () => {
+    dispatch(commonActions.setIsCanceled());
+    dispatch(commonActions.setEditCardMode());
+  };
+
   return (
     <header>
       <CssBaseline />
@@ -50,7 +52,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
               color="inherit"
               aria-label="add"
               size="small"
-              onClick={setActive}
+              onClick={() => dispatch(commonActions.modalActive())}
             >
               <AddIcon />
             </Fab>
@@ -59,26 +61,26 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
               color="inherit"
               aria-label="edit"
               size="small"
-              onClick={setActiveEdit}
+              onClick={() => dispatch(commonActions.editCardMode())}
             >
               <EditIcon />
             </Fab>
-            {activeEdit && (
+            {isEditCardMode && (
               <Button
                 variant="contained"
                 color="secondary"
-                className={`${activeCancel} ? ${classes.button} : `}
+                className={`${!isActiveCancelBtn} ? ${classes.button} : `}
                 startIcon={<CancelIcon />}
                 onClick={cancelHandler}
               >
                 Cancel
               </Button>
             )}
-            {activeEdit && (
+            {isEditCardMode && (
               <Button
                 variant="contained"
                 color="secondary"
-                className={`${activeCancel} ? ${classes.button} : `}
+                className={`${!isActiveCancelBtn} ? ${classes.button} : `}
                 onClick={exitHandler}
               >
                 Exit

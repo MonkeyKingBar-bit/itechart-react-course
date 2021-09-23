@@ -1,12 +1,12 @@
-import React, { useRef, useImperativeHandle } from 'react';
-import classes from './Input.module.css';
+import React, { useRef, useImperativeHandle } from "react";
+import classes from "./Input.module.css";
 interface InputProps {
-   id: string;
-   value: any;
-   onChange: any;
-   disabled: any;
-   cols: number;
-   rows: number;
+  id: string;
+  value: any;
+  onChange: any;
+  disabled: any;
+  cols: number;
+  rows: number;
 }
 
 const Input = React.forwardRef((props: InputProps, ref) => {
@@ -19,9 +19,7 @@ const Input = React.forwardRef((props: InputProps, ref) => {
   }));
 
   return (
-    <div
-      className={classes.control}
-    >
+    <div className={classes.control}>
       <textarea
         ref={inputRef}
         id={props.id}

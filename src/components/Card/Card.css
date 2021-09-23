@@ -3,7 +3,7 @@
 }
 .editMode.active {
    visibility: visible;
-   display: inline-grid;
+   display: flex;
    grid-gap: 10px;
    justify-content: center;
 }

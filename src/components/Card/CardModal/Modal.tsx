@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import useStyles from "../../../styles/styles";
 import "./Modal.css";
+import { sendCardRequest } from "../../../store/slice/thunk";
 
 const Modal = () => {
   const classes = useStyles();
@@ -23,10 +24,10 @@ const Modal = () => {
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredContent, setEnteredContent] = useState("");
 
-  const createCard = ({ taskTitle, taskText }: any) => {
-    const createdTask = { id: uuidv4(), title: taskTitle, text: taskText };
-    dispatch(cardsDataActions.addCard(createdTask));
-  };
+  // const createCard = ({ taskTitle, taskText }: any) => {
+  //   const createdTask = { id: uuidv4(), title: taskTitle, text: taskText };
+  //   dispatch(cardsDataActions.addCard(createdTask));
+  // };
 
   const addCardHandler = (event: any) => {
     event.preventDefault();
@@ -54,17 +55,18 @@ const Modal = () => {
   };
 
   const enterCardHandler = async ({ taskTitle, taskText }: any) => {
-    sendTaskRequest(
-      {
-        url: "https://jsonplaceholder.typicode.com/posts/",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: { title: taskTitle, text: taskText },
-      },
-      createCard.bind(null, taskTitle, taskText)
-    );
+    sendCardRequest({ taskTitle, taskText });
+    // sendTaskRequest(
+    //   {
+    //     url: "https://jsonplaceholder.typicode.com/posts/",
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: { title: taskTitle, text: taskText },
+    //   },
+    //   createCard.bind(null, taskTitle, taskText)
+    // );
   };
 
   return (

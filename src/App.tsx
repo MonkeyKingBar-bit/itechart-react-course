@@ -24,8 +24,8 @@ const App = () => {
   // const { isLoading, error, sendRequest: fetchTasks } = useHttp();
 
   useEffect(() => {
-    fetchCardData();
-  }, []);
+    fetchCardData(cardsData);
+  }, [cardsData]);
 
   // useEffect(() => {
   //   const transformTasks = (tasksObj: any) => {

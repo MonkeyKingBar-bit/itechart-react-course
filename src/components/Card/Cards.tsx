@@ -20,12 +20,12 @@ interface CardProps {
   id: string;
   title: string;
   text: string;
-  loading: boolean;
-  error: any;
+  // loading: boolean;
+  // error: any;
 }
 
 const Cards: React.FC<CardProps> = (props: CardProps) => {
-  const { id, title, text, loading, error } = props;
+  const { id, title, text } = props;
 
   const classes = useStyles();
   const dispatch = useAppDispatch();
@@ -88,8 +88,8 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     dispatch(commonActions.saveCard());
   };
 
-  if (error) <p>Try again</p>;
-  if (loading) <p>'Loading cards...'</p>;
+  // if (error) <p>Try again</p>;
+  // if (loading) <p>'Loading cards...'</p>;
 
   return (
     <main className={classes.cardMain}>

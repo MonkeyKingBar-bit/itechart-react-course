@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 import useHttp from "./hooks/use-http";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
+import { fetchCardData } from "./store/slice/thunk";
 import { cardsDataActions } from "./store/slice/cardsData";
 
 import Header from "./components/Header/Header";
@@ -20,30 +21,34 @@ const App = () => {
   const cardsData = useAppSelector((state) => state.cardsData.cards);
   const modalSelector = useAppSelector((state) => state.common.isModalActive);
   const tabSelector = useAppSelector((state) => state.tab.activeTab);
-  const { isLoading, error, sendRequest: fetchTasks } = useHttp();
+  // const { isLoading, error, sendRequest: fetchTasks } = useHttp();
 
   useEffect(() => {
-    const transformTasks = (tasksObj: any) => {
-      const loadedTasks = [];
-      for (const taskKey in tasksObj) {
-        loadedTasks.push({
-          id: taskKey,
-          title: tasksObj[taskKey].title,
-          text: tasksObj[taskKey].body,
-        });
-      }
-      dispatch(cardsDataActions.setCardsData(loadedTasks));
-    };
-    fetchTasks(
-      { url: "https://jsonplaceholder.typicode.com/posts/" },
-      transformTasks
-    );
-  }, [fetchTasks, dispatch]);
+    fetchCardData();
+  }, []);
+
+  // useEffect(() => {
+  //   const transformTasks = (tasksObj: any) => {
+  //     const loadedTasks = [];
+  //     for (const taskKey in tasksObj) {
+  //       loadedTasks.push({
+  //         id: taskKey,
+  //         title: tasksObj[taskKey].title,
+  //         text: tasksObj[taskKey].body,
+  //       });
+  //     }
+  //     dispatch(cardsDataActions.setCardsData(loadedTasks));
+  //   };
+  //   fetchTasks(
+  //     { url: "https://jsonplaceholder.typicode.com/posts/" },
+  //     transformTasks
+  //   );
+  // }, [fetchTasks, dispatch]);
 
   let content = <p>Found no cards.</p>;
 
-  if (error) content = <p className="error">{error}</p>;
-  if (isLoading) content = <p>Loading...</p>;
+  // if (cardsData.loading) content = <p>Loading...</p>;
+  // if (cardsData.error) content = <p className="error">{cardData.error}</p>;
   if (cardsData.length > 0) {
     content = (
       <div className="app-content">
@@ -54,8 +59,8 @@ const App = () => {
               id={data.id}
               title={data.title}
               text={data.text}
-              loading={isLoading}
-              error={error}
+              // loading={isLoading}
+              // error={error}
             />
           ))}
       </div>
@@ -88,8 +93,8 @@ const App = () => {
             {cardsData[tabSelector] && (
               <CardDetail
                 {...cardsData[tabSelector]}
-                loading={isLoading}
-                error={error}
+                // loading={isLoading}
+                // error={error}
               />
             )}
           </section>

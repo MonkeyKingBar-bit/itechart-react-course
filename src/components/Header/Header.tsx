@@ -48,7 +48,7 @@ const Header = () => {
           </div>
           <div className={classes.root}>
             <Fab
-              data-testId="addButton"
+              data-testid="addButton"
               className={classes.headerButton}
               color="inherit"
               aria-label="add"
@@ -58,7 +58,7 @@ const Header = () => {
               <AddIcon />
             </Fab>
             <Fab
-              data-testId="editModeButton"
+              data-testid="editModeButton"
               className={classes.headerButton}
               color="inherit"
               aria-label="edit"
@@ -69,7 +69,7 @@ const Header = () => {
             </Fab>
             {isEditCardMode && (
               <Button
-                data-testId="cancelButton"
+                data-testid="cancelButton"
                 variant="contained"
                 color="secondary"
                 className={`${!isActiveCancelBtn} ? ${classes.button} : `}
@@ -81,7 +81,7 @@ const Header = () => {
             )}
             {isEditCardMode && (
               <Button
-                data-testId="exitButton"
+                data-testid="exitButton"
                 variant="contained"
                 color="secondary"
                 className={`${!isActiveCancelBtn} ? ${classes.button} : `}

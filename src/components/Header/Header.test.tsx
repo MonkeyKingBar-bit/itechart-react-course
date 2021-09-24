@@ -1,11 +1,17 @@
 import { render, screen } from "@testing-library/react";
+import { Provider } from "react-redux";
 // import userEvent from "@testing-library/user-event";
 import Header from "./Header";
+import store from "../../store/index";
 
 describe("Header component", () => {
-  test("should open modal window if the add button was clicked", () => {
+  test("render header if button NOT clicked", () => {
     // Arrange
-    render(<Header />);
+    render(
+      <Provider store={store}>
+        <Header />
+      </Provider>
+    );
     // Act
     const addButton = screen.getByTestId("addButton");
     // userEvent.click(addButton);

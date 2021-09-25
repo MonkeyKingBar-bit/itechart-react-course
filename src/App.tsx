@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
+import axios from "axios";
 
-import useHttp from "./hooks/use-http";
+// import useHttp from "./hooks/use-http";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 import { fetchCardData } from "./store/slice/thunk";
 import { cardsDataActions } from "./store/slice/cardsData";
@@ -23,10 +24,31 @@ const App = () => {
   const tabSelector = useAppSelector((state) => state.tab.activeTab);
   // const { isLoading, error, sendRequest: fetchTasks } = useHttp();
 
-  useEffect(() => {
-    fetchCardData(cardsData);
-  }, [cardsData]);
+  // useEffect(() => {
+  //   fetchCardData();
+  // }, [cardsData]);
 
+  useEffect(() => {
+    axios
+      .get("https://jsonplaceholder.typicode.com/posts/")
+      .then((res) => {
+        const loadedTasks = [];
+        for (const taskKey in res.data) {
+          loadedTasks.push({
+            id: taskKey,
+            title: res.data[taskKey].title,
+            text: res.data[taskKey].body,
+          });
+        }
+        dispatch(cardsDataActions.setCardsData(loadedTasks));
+      })
+      .catch((err) => {
+        dispatch(cardsDataActions.setError(err.message));
+        // dispatch(
+        //   cardsDataActions.setCardsData(err.message || "Something went wrong!")
+        // );
+      });
+  }, [dispatch]);
   // useEffect(() => {
   //   const transformTasks = (tasksObj: any) => {
   //     const loadedTasks = [];

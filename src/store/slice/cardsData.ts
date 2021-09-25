@@ -4,7 +4,7 @@ import initialData from "../../state/card-data";
 
 const cardsDataSlice = createSlice({
   name: "cardData",
-  initialState: { cards: initialData },
+  initialState: { cards: initialData, error: null },
   reducers: {
     setCardsData: (state, action) => {
       return {
@@ -38,6 +38,9 @@ const cardsDataSlice = createSlice({
         ...state,
         cards: [...cardData],
       };
+    },
+    setError: (state, action) => {
+      state.error = state.error + action.payload;
     },
   },
 });

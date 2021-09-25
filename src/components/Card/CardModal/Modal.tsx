@@ -1,8 +1,9 @@
 import { useState } from "react";
-
 import { v4 as uuidv4 } from "uuid";
-import useHttp from "../../../hooks/use-http";
+
+// import useHttp from "../../../hooks/use-http";
 import { useAppSelector, useAppDispatch } from "../../../hooks/hooks";
+import { sendCardRequest } from "../../../store/slice/thunk";
 import { commonActions } from "../../../store/slice/common";
 import { cardsDataActions } from "../../../store/slice/cardsData";
 
@@ -14,13 +15,15 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import useStyles from "../../../styles/styles";
 import "./Modal.css";
-import { sendCardRequest } from "../../../store/slice/thunk";
 
 const Modal = () => {
   const classes = useStyles();
-  const { isLoading, error, sendRequest: sendTaskRequest } = useHttp();
+  // const { isLoading, error, sendRequest: sendTaskRequest } = useHttp();
   const dispatch = useAppDispatch();
   const modalSelector = useAppSelector((state) => state.common.isModalActive);
+  const loadingSelector = useAppSelector((state) => state.common.isLoading);
+  const errorSelector = useAppSelector((state) => state.cardsData.error);
+
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredContent, setEnteredContent] = useState("");
 
@@ -116,11 +119,11 @@ const Modal = () => {
           </CardContent>
           <CardActions className={classes.buttonForm}>
             <Button size="large" onClick={addCardHandler}>
-              {isLoading ? "Sending" : "Create card"}
+              {!loadingSelector ? "Create card" : "Sending"}
             </Button>
           </CardActions>
         </Card>
-        {error && <p>{error}</p>}
+        {errorSelector && <p>Something went wrong! {errorSelector}</p>}
       </div>
     </div>
   );

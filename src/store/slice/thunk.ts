@@ -1,7 +1,8 @@
 import { cardsDataActions } from "./cardsData";
 import axios from "axios";
+import { commonActions } from "./common";
 
-export const fetchCardData = (cardsData: any) => {
+export const fetchCardData = () => {
   return (dispatch: (arg0: { payload: any; type: string }) => void) => {
     //  dispatch(cardsDataActions.setCardsData([]));
     axios
@@ -18,21 +19,29 @@ export const fetchCardData = (cardsData: any) => {
         dispatch(cardsDataActions.setCardsData(loadedTasks));
       })
       .catch((err) => {
-        dispatch(
-          cardsDataActions.setCardsData(err.message || "Something went wrong!")
-        );
+        dispatch(cardsDataActions.setError(err.message));
+        // dispatch(
+        //   cardsDataActions.setCardsData(err.message || "Something went wrong!")
+        // );
       });
+    dispatch(commonActions.setIsLoading());
   };
 };
 
 export const sendCardRequest = ({ taskTitle, taskText }: any) => {
-  axios
-    .post("https://jsonplaceholder.typicode.com/posts/", {
-      title: taskTitle,
-      text: taskText,
-    })
-    .then((response) => console.log(response.status))
-    .catch((error) => {
-      console.error("Sending cart data failed.", error);
-    });
+  return (dispatch: (arg0: { payload: any; type: string }) => void) => {
+    axios
+      .post("https://jsonplaceholder.typicode.com/posts/", {
+        title: taskTitle,
+        text: taskText,
+      })
+      .then((response) =>
+        dispatch(cardsDataActions.setCardsData(response.data))
+      )
+      // console.log(response.status)
+      .catch((error) => {
+        dispatch(cardsDataActions.setError(error.message));
+        // console.error("Sending cart data failed.", error);
+      });
+  };
 };

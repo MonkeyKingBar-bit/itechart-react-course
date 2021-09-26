@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 
-import store from "../../../store/index";
+import store from "../store/index";
 
-import Modal from "./Modal";
+import Modal from "../components/Card/CardModal/Modal";
 
 describe("Modal component", () => {
   test("render 'Create card' if the button was not clicked", () => {

@@ -4,7 +4,7 @@ import axios from "axios";
 
 // import useHttp from "./hooks/use-http";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
-import { fetchCardData } from "./store/slice/thunk";
+// import { fetchCardData } from "./store/slice/thunk";
 import { cardsDataActions } from "./store/slice/cardsData";
 
 import Header from "./components/Header/Header";
@@ -44,33 +44,11 @@ const App = () => {
       })
       .catch((err) => {
         dispatch(cardsDataActions.setError(err.message));
-        // dispatch(
-        //   cardsDataActions.setCardsData(err.message || "Something went wrong!")
-        // );
       });
   }, [dispatch]);
-  // useEffect(() => {
-  //   const transformTasks = (tasksObj: any) => {
-  //     const loadedTasks = [];
-  //     for (const taskKey in tasksObj) {
-  //       loadedTasks.push({
-  //         id: taskKey,
-  //         title: tasksObj[taskKey].title,
-  //         text: tasksObj[taskKey].body,
-  //       });
-  //     }
-  //     dispatch(cardsDataActions.setCardsData(loadedTasks));
-  //   };
-  //   fetchTasks(
-  //     { url: "https://jsonplaceholder.typicode.com/posts/" },
-  //     transformTasks
-  //   );
-  // }, [fetchTasks, dispatch]);
 
   let content = <p>Found no cards.</p>;
 
-  // if (cardsData.loading) content = <p>Loading...</p>;
-  // if (cardsData.error) content = <p className="error">{cardData.error}</p>;
   if (cardsData.length > 0) {
     content = (
       <div className="app-content">
@@ -81,8 +59,6 @@ const App = () => {
               id={data.id}
               title={data.title}
               text={data.text}
-              // loading={isLoading}
-              // error={error}
             />
           ))}
       </div>
@@ -113,11 +89,7 @@ const App = () => {
             <CardTabs />
             {content}
             {cardsData[tabSelector] && (
-              <CardDetail
-                {...cardsData[tabSelector]}
-                // loading={isLoading}
-                // error={error}
-              />
+              <CardDetail {...cardsData[tabSelector]} />
             )}
           </section>
         </Route>

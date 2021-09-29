@@ -1,6 +1,7 @@
 // import { configureStore } from "@reduxjs/toolkit";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 import cardsDataReducer from "./slice/cardsData";
 import commonReducer from "./slice/common";
@@ -12,7 +13,7 @@ const reducer = combineReducers({
   tab: tabReducer,
 });
 
-const store = createStore(reducer, applyMiddleware(thunk));
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;

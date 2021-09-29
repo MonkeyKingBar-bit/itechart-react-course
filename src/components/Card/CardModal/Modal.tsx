@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-// import useHttp from "../../../hooks/use-http";
 import { useAppSelector, useAppDispatch } from "../../../hooks/hooks";
 import { sendCardRequest } from "../../../store/slice/thunk";
 import { commonActions } from "../../../store/slice/common";
@@ -18,7 +17,6 @@ import "./Modal.css";
 
 const Modal = () => {
   const classes = useStyles();
-  // const { isLoading, error, sendRequest: sendTaskRequest } = useHttp();
   const dispatch = useAppDispatch();
   const modalSelector = useAppSelector((state) => state.common.isModalActive);
   const loadingSelector = useAppSelector((state) => state.common.isLoading);
@@ -26,11 +24,6 @@ const Modal = () => {
 
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredContent, setEnteredContent] = useState("");
-
-  // const createCard = ({ taskTitle, taskText }: any) => {
-  //   const createdTask = { id: uuidv4(), title: taskTitle, text: taskText };
-  //   dispatch(cardsDataActions.addCard(createdTask));
-  // };
 
   const addCardHandler = (event: any) => {
     event.preventDefault();
@@ -57,19 +50,8 @@ const Modal = () => {
     setEnteredContent(event.target.value);
   };
 
-  const enterCardHandler = async ({ taskTitle, taskText }: any) => {
+  const enterCardHandler = ({ taskTitle, taskText }: any) => {
     sendCardRequest({ taskTitle, taskText });
-    // sendTaskRequest(
-    //   {
-    //     url: "https://jsonplaceholder.typicode.com/posts/",
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: { title: taskTitle, text: taskText },
-    //   },
-    //   createCard.bind(null, taskTitle, taskText)
-    // );
   };
 
   return (

@@ -1,10 +1,8 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import axios from "axios";
 
-// import useHttp from "./hooks/use-http";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
-// import { fetchCardData } from "./store/slice/thunk";
+import { fetchCardData } from "./store/slice/thunk";
 import { cardsDataActions } from "./store/slice/cardsData";
 
 import Header from "./components/Header/Header";
@@ -16,38 +14,31 @@ import CardTabs from "./components/Card/Tabs/Tabs";
 import CardDetail from "./components/Card/CardsDetail/CardsDetail";
 
 import "./App.css";
+import { commonActions } from "./store/slice/common";
+
+let isInitial = true;
 
 const App = () => {
   const dispatch = useAppDispatch();
   const cardsData = useAppSelector((state) => state.cardsData.cards);
+  const isLoading = useAppSelector(commonActions.isLoading);
   const modalSelector = useAppSelector((state) => state.common.isModalActive);
   const tabSelector = useAppSelector((state) => state.tab.activeTab);
-  // const { isLoading, error, sendRequest: fetchTasks } = useHttp();
-
-  // useEffect(() => {
-  //   fetchCardData();
-  // }, [cardsData]);
-
-  useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/posts/")
-      .then((res) => {
-        const loadedTasks = [];
-        for (const taskKey in res.data) {
-          loadedTasks.push({
-            id: taskKey,
-            title: res.data[taskKey].title,
-            text: res.data[taskKey].body,
-          });
-        }
-        dispatch(cardsDataActions.setCardsData(loadedTasks));
-      })
-      .catch((err) => {
-        dispatch(cardsDataActions.setError(err.message));
-      });
+  const cards = useCallback(() => {
+    dispatch(fetchCardData(cardsDataActions.cardsData));
   }, [dispatch]);
 
+  useEffect(() => {
+    if (isInitial) {
+      isInitial = false;
+      return;
+    }
+    cards();
+  }, [cards, dispatch]);
+
   let content = <p>Found no cards.</p>;
+
+  if (isLoading) content = <p>Cards is loading....</p>;
 
   if (cardsData.length > 0) {
     content = (
@@ -79,6 +70,7 @@ const App = () => {
           <section className="container">
             <TemporaryDrawer />
             <CardTabs />
+            {dispatch(fetchCardData(cardsDataActions.cardsData))}
             {content}
           </section>
         </Route>

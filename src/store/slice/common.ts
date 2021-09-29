@@ -50,6 +50,9 @@ const commonSlice = createSlice({
     setIsCanceled: (state) => {
       state.isCanceled = false;
     },
+    isLoading: (state) => {
+      state.isLoading = true;
+    },
     setIsLoading: (state) => {
       state.isLoading = false;
     },

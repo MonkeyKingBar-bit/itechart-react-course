@@ -20,12 +20,10 @@ interface CardProps {
   id: string;
   title: string;
   text: string;
-  loading: boolean;
-  error: any;
 }
 
 const Cards: React.FC<CardProps> = (props: CardProps) => {
-  const { id, title, text, loading, error } = props;
+  const { id, title, text } = props;
 
   const classes = useStyles();
   const dispatch = useAppDispatch();
@@ -88,9 +86,6 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
     dispatch(commonActions.saveCard());
   };
 
-  if (error) <p>Try again</p>;
-  if (loading) <p>'Loading cards...'</p>;
-
   return (
     <main className={classes.cardMain}>
       <Container className={classes.cardGrid} maxWidth="md">
@@ -105,6 +100,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
               <CardContent className={classes.cardContent}>
                 <form onSubmit={isSaveCard}>
                   <Input
+                    aria-label="title-input"
                     ref={titleInputRef}
                     id={id}
                     value={editTitle}
@@ -114,6 +110,7 @@ const Cards: React.FC<CardProps> = (props: CardProps) => {
                     rows={2}
                   />
                   <Input
+                    aria-label="content-input"
                     ref={contentInputRef}
                     id={id}
                     value={editContent}

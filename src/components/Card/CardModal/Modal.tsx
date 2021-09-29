@@ -1,8 +1,8 @@
 import { useState } from "react";
-
 import { v4 as uuidv4 } from "uuid";
-import useHttp from "../../../hooks/use-http";
+
 import { useAppSelector, useAppDispatch } from "../../../hooks/hooks";
+import { sendCardRequest } from "../../../store/slice/thunk";
 import { commonActions } from "../../../store/slice/common";
 import { cardsDataActions } from "../../../store/slice/cardsData";
 
@@ -17,16 +17,13 @@ import "./Modal.css";
 
 const Modal = () => {
   const classes = useStyles();
-  const { isLoading, error, sendRequest: sendTaskRequest } = useHttp();
   const dispatch = useAppDispatch();
   const modalSelector = useAppSelector((state) => state.common.isModalActive);
+  const loadingSelector = useAppSelector((state) => state.common.isLoading);
+  const errorSelector = useAppSelector((state) => state.cardsData.error);
+
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredContent, setEnteredContent] = useState("");
-
-  const createCard = ({ taskTitle, taskText }: any) => {
-    const createdTask = { id: uuidv4(), title: taskTitle, text: taskText };
-    dispatch(cardsDataActions.addCard(createdTask));
-  };
 
   const addCardHandler = (event: any) => {
     event.preventDefault();
@@ -53,18 +50,8 @@ const Modal = () => {
     setEnteredContent(event.target.value);
   };
 
-  const enterCardHandler = async ({ taskTitle, taskText }: any) => {
-    sendTaskRequest(
-      {
-        url: "https://jsonplaceholder.typicode.com/posts/",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: { title: taskTitle, text: taskText },
-      },
-      createCard.bind(null, taskTitle, taskText)
-    );
+  const enterCardHandler = ({ taskTitle, taskText }: any) => {
+    sendCardRequest({ taskTitle, taskText });
   };
 
   return (
@@ -114,11 +101,11 @@ const Modal = () => {
           </CardContent>
           <CardActions className={classes.buttonForm}>
             <Button size="large" onClick={addCardHandler}>
-              {isLoading ? "Sending" : "Create card"}
+              {!loadingSelector ? "Create card" : "Sending"}
             </Button>
           </CardActions>
         </Card>
-        {error && <p>{error}</p>}
+        {errorSelector && <p>Something went wrong! {errorSelector}</p>}
       </div>
     </div>
   );

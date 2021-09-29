@@ -1,15 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-import initialData from "../../state/card-data";
+interface Card {
+  id: string;
+  title: string;
+  text: string;
+}
 
 const cardsDataSlice = createSlice({
   name: "cardData",
-  initialState: { cards: initialData },
+  initialState: { cards: [] as Card[], error: null },
   reducers: {
-    setCardsData: (state, action) => {
+    cardsData: (state, action) => {
       return {
         ...state,
         cards: [...action.payload],
+      };
+    },
+    setCardsData: (state, action) => {
+      return {
+        ...state,
+        cards: [...state.cards, ...action.payload],
       };
     },
     addCard: (state, action) => {
@@ -38,6 +47,9 @@ const cardsDataSlice = createSlice({
         ...state,
         cards: [...cardData],
       };
+    },
+    setError: (state, action) => {
+      state.error = state.error + action.payload;
     },
   },
 });

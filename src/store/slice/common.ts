@@ -7,6 +7,7 @@ const initialState = {
   isActiveCancelBtn: false,
   isSaveCard: false,
   isCanceled: false,
+  isLoading: false,
 };
 
 const commonSlice = createSlice({
@@ -48,6 +49,12 @@ const commonSlice = createSlice({
     },
     setIsCanceled: (state) => {
       state.isCanceled = false;
+    },
+    isLoading: (state) => {
+      state.isLoading = true;
+    },
+    setIsLoading: (state) => {
+      state.isLoading = false;
     },
   },
 });
